@@ -9,8 +9,10 @@ void	swap_b(t_stacks *stacks)
 
 	if (stacks->b_len >= 2)
 	{
-		temp_holder = stacks->b[0];
-		stacks->b[0] = stacks->b[1];
-		stacks->b[1] = temp_holder;
+		temp_holder = stacks->b[0].value;
+		stacks->b[0].value = stacks->b[1].value;
+		stacks->b[1].value = temp_holder;
 	}
+	stacks->move_count++;
+	stacks->moves.swap_b++;
 }

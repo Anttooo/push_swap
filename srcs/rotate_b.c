@@ -10,12 +10,14 @@ void	rotate_b(t_stacks *stacks)
 	i = 0;
 	if (stacks->b_len > 1)
 	{
-		temp_holder = stacks->b[0];
+		temp_holder = stacks->b[0].value;
 		while (i < stacks->b_len - 1)
 		{
-			stacks->b[i] = stacks->b[i + 1];
+			stacks->b[i].value = stacks->b[i + 1].value;
 			i++;
 		}
-		stacks->b[stacks->b_len - 1] = temp_holder;
+		stacks->b[stacks->b_len - 1].value = temp_holder;
 	}
+	stacks->move_count++;
+	stacks->moves.rotate_b++;
 }

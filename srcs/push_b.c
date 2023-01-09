@@ -18,11 +18,11 @@ void	push_to_b(t_stacks *stacks)
 		// This part moves the numbers back by one in a non-destructive way
 		while (i > 0)
 		{
-			stacks->b[i] = stacks->b[i - 1];
+			stacks->b[i].value = stacks->b[i - 1].value;
 			i--;
 		}
 		// Move the top number from b to a
-		stacks->b[0] = stacks->a[0];
+		stacks->b[0].value = stacks->a[0].value;
 		// increment the counters for the length of both stacks
 		stacks->b_len++;
 		stacks->a_len--;
@@ -33,8 +33,10 @@ void	push_to_b(t_stacks *stacks)
 	{
 		while (i < stacks->a_len)
 		{
-			stacks->a[i] = stacks->a[i + 1];
+			stacks->a[i].value = stacks->a[i + 1].value;
 			i++;
 		}
 	}
+	stacks->move_count++;
+	stacks->moves.push_b++;
 }

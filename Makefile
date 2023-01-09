@@ -15,6 +15,7 @@ DEPS = ./libft/libft.h
 SRCS = ./push_swap.c \
 		./sort_stack.c \
 		./sort_v1.c \
+		./sort_b.c \
 		./srcs/push_a.c \
 		./srcs/push_b.c \
 		./srcs/swap_a.c \
@@ -66,6 +67,10 @@ test20: all
 test100: all
 	rm -f $(OBJS)
 	./push_swap $$(cat 100.txt)
+
+test500: all
+	rm -f $(OBJS)
+	./push_swap $$(cat 500.txt)
 
 test_leaks: all
 	leaks -atExit -- ./push_swap
