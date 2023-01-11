@@ -41,10 +41,10 @@ typedef struct s_stacks
 	int			move_count;
 	int			max;
 	int			min;
-	int			decile;
+	int			split;
+	int			nr_of_splits;
 	int			upper_limit;
 	int			lower_limit;
-	int			splits;
 	int			zero_index;
 }		t_stacks;
 

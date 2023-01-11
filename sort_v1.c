@@ -9,18 +9,12 @@ void	sort_b(t_stacks *stacks);
 void	sort_v1(t_stacks *stacks)
 {
 	int	i;
-	// int	pushed;
-	// int	values_to_push;
 
 	i = 0;
-	// pushed = 0;
-	stacks->decile++;
+	stacks->split++;
 	calculate_limits(stacks);
-	// values_to_push = calculate_values_to_push(stacks);
-	// ft_printf("values to push: %d\n", values_to_push);
 	// push all values below or equal to pivot into B
-	// TODO: count the number of values that fit into the limits and stop once those have been pushed -> saves steps // adding this gives only a 2% decrease in number of moves and breaks some things
-	while (i < stacks->a_len) // && pushed != values_to_push
+	while (i < stacks->a_len) 
 	{
 		// ft_printf("i: %d\n", i);
 		// ft_printf("stacks->[a]: %d\n", stacks->a[i]);
@@ -29,9 +23,6 @@ void	sort_v1(t_stacks *stacks)
 		{
 			// ft_printf("pa\n");
 			push_to_b(stacks);
-			// pushed++;
-			// if (pushed == values_to_push)
-			// 	ft_printf("last push at index %d\n", i);
 		}
 		else
 		{
@@ -40,7 +31,6 @@ void	sort_v1(t_stacks *stacks)
 			i++;
 		}
 	}
-	// ft_printf("pushed: %d after %d moves\n", pushed, i);
 	sort_b(stacks);
 }
 
@@ -49,14 +39,14 @@ void	calculate_limits(t_stacks *stacks)
 	int	total_range;
 
 	total_range = stacks->max - stacks->min;
-	if (stacks->decile == 1)
+	if (stacks->split == 1)
 		stacks->upper_limit = stacks->max;
 	else
 		stacks->upper_limit = stacks->lower_limit - 1;
-	if (stacks->decile == stacks->splits)
+	if (stacks->split == stacks->nr_of_splits)
 		stacks->lower_limit = stacks->min;
 	else
-		stacks->lower_limit = stacks->max - total_range / stacks->splits * stacks->decile - 1;
+		stacks->lower_limit = stacks->max - total_range / stacks->nr_of_splits * stacks->split - 1;
 	// ft_printf("lower limit: %d, upper limit: %d\n", stacks->lower_limit, stacks->upper_limit);
 }
 

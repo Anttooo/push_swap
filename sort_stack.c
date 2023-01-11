@@ -8,6 +8,7 @@ void	sort_stack(t_stacks *stacks)
 	int	i;
 
 	i = 0;
+	// Create stack B
 	stacks->b = (t_list_item *)malloc(stacks->len * sizeof(t_list_item));
 	if (stacks->b == NULL)
 	{
@@ -16,8 +17,8 @@ void	sort_stack(t_stacks *stacks)
 	}
 	ft_printf("Original stacks:\n");
 	print_stacks(stacks);
-	// while (!(is_sorted(stacks) == 1 && stacks->a_len == stacks->org_len))
-	while (is_sorted(stacks) != 1 && stacks->decile < stacks->splits)
+	// Keep looping the sort function while it is not sorted
+	while (is_sorted(stacks) != 1 && stacks->split < stacks->nr_of_splits)
 		sort_v1(stacks);
 	if (is_sorted(stacks) == 1 && stacks->a_len == stacks->org_len)
 		ft_printf("SORTED in %d moves!\n", stacks->move_count);
