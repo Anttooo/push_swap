@@ -23,9 +23,9 @@ void	sort_stack(t_stacks *stacks)
 		ft_printf("SORTED in %d moves!\n", stacks->move_count);
 	else
 		ft_printf("Was not sorted in %d moves!\n", stacks->move_count);
-		ft_printf("Moves used: \nRotate a: %d\nRotate b: %d\nRotate both: %d\n", stacks->moves.rotate_a, stacks->moves.rotate_b, stacks->moves.rotate_both);
-		ft_printf("Reverse rotate a:%d\nReverse rotate b: %d\nReverse rotate both: %d\n", stacks->moves.reverse_rotate_a, stacks->moves.reverse_rotate_b, stacks->moves.reverse_rotate_both);
-		ft_printf("Swap a:%d\nSwap b: %d\nSwap both: %d\n", stacks->moves.swap_a, stacks->moves.swap_b, stacks->moves.swap_both);
+		ft_printf("Moves used: \nRotate a: %d (%d%%)\nRotate b: %d\nRotate both: %d\n", stacks->moves.rotate_a, (stacks->moves.rotate_a * 100 / stacks->move_count ), stacks->moves.rotate_b, stacks->moves.rotate_both);
+		ft_printf("Reverse rotate a:%d\nReverse rotate b: %d (%d%%)\nReverse rotate both: %d\n", stacks->moves.reverse_rotate_a, stacks->moves.reverse_rotate_b, (stacks->moves.reverse_rotate_b * 100 / stacks->move_count), stacks->moves.reverse_rotate_both);
+		ft_printf("Swap a:%d\nSwap b: %d (%d%%)\nSwap both: %d\n", stacks->moves.swap_a, stacks->moves.swap_b, (stacks->moves.swap_b * 100 / stacks->move_count), stacks->moves.swap_both);
 		ft_printf("Push a:%d\nPush b: %d\n", stacks->moves.push_a, stacks->moves.push_b);
 	print_stacks(stacks);
 }

@@ -2,40 +2,23 @@
 
 void	calculate_indexes(t_stacks *stacks);
 void	calculate_distances(t_stacks *stacks);
-int	calculate_distance_sum(t_stacks *stacks);
-void	rotate_and_swap(t_stacks *stacks);
+int		calculate_distance_sum(t_stacks *stacks);
+void	do_next_move(t_stacks *stacks);
 
 void	sort_b(t_stacks *stacks)
 {
-	int	distance_sum;
 	int	i;
 
 	i = 0;
 	calculate_indexes(stacks);
 	calculate_distances(stacks);
-	distance_sum = calculate_distance_sum(stacks);
 	// ft_printf("distance sum: %d\n", distance_sum);
-	while (distance_sum > 0)
-	{
-		// TODO: optimise the order of things done within the rotate and swap so that it does not do stupid stuff
-		rotate_and_swap(stacks);
-		calculate_indexes(stacks);
-		calculate_distances(stacks);
-		distance_sum = calculate_distance_sum(stacks);
-		// ft_printf("distance sum: %d\n", distance_sum);
-	}
-	while (stacks->b[i].index != 0)
-		i++;
-	while (i > 0)
-	{
-		// ft_printf("rb\n");
-		rotate_b(stacks);
-		i--;
-	}
 	while (stacks->b_len > 0)
 	{
-		// ft_printf("pa\n");
-		push_to_a(stacks);
+		do_next_move(stacks);
+		calculate_indexes(stacks);
+		calculate_distances(stacks);
+		// ft_printf("distance sum: %d\n", distance_sum);
 	}
 }
 
@@ -47,6 +30,12 @@ void	calculate_indexes(t_stacks *stacks)
 
 	i = 0;
 	index = 0;
+	while (i < stacks->b_len)
+	{
+		stacks->b[i].index = 0;
+		i++;
+	}
+	i = 0;
 	while (i < stacks->b_len)
 	{
 		j = 0;
@@ -106,12 +95,12 @@ int	calculate_distance_sum(t_stacks *stacks)
 	return (sum);
 }
 
-void	rotate_and_swap(t_stacks *stacks)
+void	do_next_move(t_stacks *stacks)
 {
-	if (stacks->b[0].distance < 0 || stacks->b[1].distance > 0)
+	if (stacks->b[0].index == 0)
 	{
-		// ft_printf("sb\n");
-		swap_b(stacks);
+		// ft_printf("pa\n");
+		push_to_a(stacks);
 	}
 	// ft_printf("rb\n");
 	reverse_rotate_b(stacks);

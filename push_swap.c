@@ -13,7 +13,7 @@ int	main(int argc, char **argv)
 	stacks.org_len = argc - 1;
 	stacks.lower_limit = INT32_MAX;
 	stacks.upper_limit = INT32_MIN;
-	stacks.splits = 10;
+	stacks.splits = 4;
 	stacks.moves.push_a = 0;
 	stacks.moves.push_b = 0;
 	stacks.moves.reverse_rotate_a = 0;
