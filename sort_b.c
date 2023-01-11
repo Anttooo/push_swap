@@ -56,23 +56,23 @@ void	calculate_indexes(t_stacks *stacks)
 void	calculate_distances(t_stacks *stacks)
 {
 	int	i;
-	int	zero_index;
 
 	i = 0;
+	stacks->zero_index = 0;
 	while (i < stacks->b_len)
 	{
 		if (stacks->b[i].index == 0)
-			zero_index = i;
+			stacks->zero_index = i;
 		i++;
 	}
 	// ft_printf("zero_index: %d\n", zero_index);
 	i = 0;
 	while (i < stacks->b_len)
 	{
-		if (i > zero_index)
-			stacks->b[i].distance = (i - zero_index) - stacks->b[i].index;
-		else if (i < zero_index)
-			stacks->b[i].distance = (stacks->b_len - zero_index) + i - stacks->b[i].index;
+		if (i > stacks->zero_index)
+			stacks->b[i].distance = (i - stacks->zero_index) - stacks->b[i].index;
+		else if (i < stacks->zero_index)
+			stacks->b[i].distance = (stacks->b_len - stacks->zero_index) + i - stacks->b[i].index;
 		else
 			stacks->b[i].distance = 0;
 		// ft_printf("number %d of B gets distance %d, with index %d\n", stacks->b[i].value, stacks->b[i].distance, stacks->b[i].index);
@@ -95,13 +95,35 @@ int	calculate_distance_sum(t_stacks *stacks)
 	return (sum);
 }
 
+char	*check_shorter_rotation_direction(t_stacks *stacks)
+{
+	char	*direction;
+
+	if (stacks->zero_index < stacks->b_len - stacks->zero_index)
+		direction = "reverse";
+	else
+		direction = "regular";
+	return (direction);
+}
+
 void	do_next_move(t_stacks *stacks)
 {
+	char	*rotation_direction;
+	
+	rotation_direction = check_shorter_rotation_direction(stacks);
 	if (stacks->b[0].index == 0)
 	{
 		// ft_printf("pa\n");
 		push_to_a(stacks);
 	}
-	// ft_printf("rb\n");
-	reverse_rotate_b(stacks);
+	if (ft_strncmp("regular", rotation_direction, 15))
+	{
+		// ft_printf("rb\n");
+		rotate_b(stacks);
+	}
+	else
+	{
+		// ft_printf("rrb\n");
+		reverse_rotate_b(stacks);
+	}
 }

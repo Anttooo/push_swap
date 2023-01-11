@@ -45,6 +45,7 @@ typedef struct s_stacks
 	int			upper_limit;
 	int			lower_limit;
 	int			splits;
+	int			zero_index;
 }		t_stacks;
 
 // add function definitions here
