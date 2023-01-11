@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-void	calculate_stack_a_indexes(t_stacks *stacks)
+void	get_indexes_for_median(t_stacks *stacks)
 {
 	int	i;
 	int	j;

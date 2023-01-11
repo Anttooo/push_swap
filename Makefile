@@ -15,8 +15,9 @@ DEPS = ./libft/libft.h
 SRCS = ./push_swap.c \
 		./sort_stack.c \
 		./calculate_indexes.c \
-		./push_all_to_b.c \
+		./prepare_b.c \
 		./sort_b.c \
+		./sort_a.c \
 		./srcs/push_a.c \
 		./srcs/push_b.c \
 		./srcs/swap_a.c \

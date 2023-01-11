@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-void	calculate_indexes(t_stacks *stacks);
+void	calculate_index_in_a(t_stacks *stacks);
 void	calculate_distances(t_stacks *stacks);
 int		calculate_distance_sum(t_stacks *stacks);
 void	do_next_move(t_stacks *stacks);
@@ -10,19 +10,24 @@ void	sort_b(t_stacks *stacks)
 	int	i;
 
 	i = 0;
-	calculate_indexes(stacks);
-	calculate_distances(stacks);
 	// ft_printf("distance sum: %d\n", distance_sum);
 	while (stacks->b_len > 0)
 	{
-		do_next_move(stacks);
-		calculate_indexes(stacks);
-		calculate_distances(stacks);
+		calculate_index_in_a(stacks);
+		do_next_move(stacks);	
 		// ft_printf("distance sum: %d\n", distance_sum);
 	}
 }
 
-void	calculate_indexes(t_stacks *stacks)
+/* to calculate correct index in a relative way to smallest value
+- A has to be already sorted so that numbers forward from smallest value are always larger than it
+- get the index of smallest value
+- calculate the correct "distance" from smallest value
+- calculate the index of that distance (it might be smaller or larger than the index of smallest value since it might go around if the smallest value is not the first one)
+	- if i > zero_index, then something
+	- if i < zero_index, then something
+*/
+void	calculate_index_in_a(t_stacks *stacks)
 {
 	int	i;
 	int	j;
@@ -40,9 +45,9 @@ void	calculate_indexes(t_stacks *stacks)
 	{
 		j = 0;
 		index = 0;
-		while (j < stacks->b_len)
+		while (j < stacks->a_len)
 		{
-			if (stacks->b[j].value > stacks->b[i].value)
+			if (stacks->b[i].value < stacks->a[j].value)
 				index++;
 			j++;
 		}

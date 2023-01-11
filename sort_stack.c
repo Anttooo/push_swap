@@ -21,8 +21,8 @@ void	sort_stack(t_stacks *stacks)
 	ft_printf("Original stacks:\n");
 	print_stacks(stacks);
 	// Keep looping the sort function while it is not sorted
-	push_all_to_b(stacks);
-	while (is_sorted(stacks) != 1 && stacks->split < stacks->nr_of_splits + 1)
+	prepare_b(stacks);
+	while (is_sorted(stacks) != 1 && i++ < 5)
 		sort_b(stacks);
 	print_result(stacks);
 	print_stats(stacks);
