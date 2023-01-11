@@ -1,9 +1,7 @@
 #include "push_swap.h"
 
 void	organise_b(t_stacks *stacks);
-int	values_to_move(int	pivot, t_stacks *stacks);
 void	calculate_limits(t_stacks *stacks);
-int	calculate_values_to_push(t_stacks *stacks);
 void	sort_b(t_stacks *stacks);
 
 void	sort_v1(t_stacks *stacks)
@@ -48,36 +46,4 @@ void	calculate_limits(t_stacks *stacks)
 	else
 		stacks->lower_limit = stacks->max - total_range / stacks->nr_of_splits * stacks->split - 1;
 	// ft_printf("lower limit: %d, upper limit: %d\n", stacks->lower_limit, stacks->upper_limit);
-}
-
-int	values_to_move(int	pivot, t_stacks *stacks)
-{
-	int	i;
-	int	counter;
-	
-	i = 0;
-	counter = 0;
-	while (i < stacks->a_len)
-	{
-		if (stacks->a[i].value <= pivot)
-			counter++;
-		i++;
-	}
-	return (counter);
-}
-
-int	calculate_values_to_push(t_stacks *stacks)
-{
-	int	i;
-	int	counter;
-
-	i = 0;
-	counter = 0;
-	while (i < stacks->a_len)
-	{
-		if (stacks->a[i].value <= stacks->upper_limit && stacks->a[i].value >= stacks->lower_limit)
-			counter++;
-		i++;
-	}
-	return (counter);
 }
