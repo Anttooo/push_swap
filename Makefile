@@ -14,7 +14,8 @@ DEPS = ./libft/libft.h
 
 SRCS = ./push_swap.c \
 		./sort_stack.c \
-		./sort_v1.c \
+		./calculate_indexes.c \
+		./push_all_to_b.c \
 		./sort_b.c \
 		./srcs/push_a.c \
 		./srcs/push_b.c \
@@ -26,10 +27,7 @@ SRCS = ./push_swap.c \
 		./srcs/rotate_both.c \
 		./srcs/reverse_rotate_a.c \
 		./srcs/reverse_rotate_b.c \
-		./srcs/reverse_rotate_both.c
-
-		
-		
+		./srcs/reverse_rotate_both.c		
 
 OBJS = $(notdir $(SRCS:%.c=%.o))
 

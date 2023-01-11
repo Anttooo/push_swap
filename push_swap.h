@@ -46,13 +46,15 @@ typedef struct s_stacks
 	int			upper_limit;
 	int			lower_limit;
 	int			zero_index;
+	int			median;
 }		t_stacks;
 
 // add function definitions here
 void	sort_stack(t_stacks *stacks);
 void	freemem(t_stacks *stacks);
-void	sort_v1(t_stacks *stacks);
+void	push_all_to_b(t_stacks *stacks);
 void	sort_b(t_stacks *stacks);
+void	calculate_stack_a_indexes(t_stacks *stacks);
 
 // Push swap language instructions, not included in the final version
 void	push_to_a(t_stacks *stacks);
