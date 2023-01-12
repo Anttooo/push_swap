@@ -4,8 +4,6 @@ void	print_stacks(t_stacks *stacks);
 int		is_sorted(t_stacks *stacks);
 void	print_stats(t_stacks *stacks);
 void	print_result(t_stacks *stacks);
-void	calculate_total_moves(t_stacks *stacks);
-
 void	sort_stack(t_stacks *stacks)
 {
 	int	i;
@@ -34,6 +32,7 @@ void	sort_stack(t_stacks *stacks)
 		i++;
 	}
 	ft_printf("Sorted stacks:\n");
+	update_total_move_count(&stacks->move_counter);
 	print_stacks(stacks);
 	print_result(stacks);
 	print_stats(stacks);
@@ -80,7 +79,7 @@ void	print_stacks(t_stacks *stacks)
 
 void	print_result(t_stacks *stacks)
 {
-	calculate_total_moves(stacks);
+	update_total_move_count(&stacks->move_counter);
 	if (is_sorted(stacks) == 1 && stacks->a_len == stacks->org_len)
 		ft_printf("\nSORTED in %d moves!\n", stacks->move_counter.total);
 	else
@@ -89,26 +88,42 @@ void	print_result(t_stacks *stacks)
 
 void	print_stats(t_stacks *stacks)
 {
-	calculate_total_moves(stacks);
+	update_total_move_count(&stacks->move_counter);
 	ft_printf("\nSTATISTICS \nRotate a: %d (%d%%)\nRotate b: %d\nRotate both: %d\n", stacks->move_counter.rotate_a, (stacks->move_counter.rotate_a * 100 / stacks->move_counter.total ), stacks->move_counter.rotate_b, stacks->move_counter.rotate_both);
 	ft_printf("Reverse rotate a:%d\nReverse rotate b: %d (%d%%)\nReverse rotate both: %d\n", stacks->move_counter.reverse_rotate_a, stacks->move_counter.reverse_rotate_b, (stacks->move_counter.reverse_rotate_b * 100 / stacks->move_counter.total), stacks->move_counter.reverse_rotate_both);
 	ft_printf("Swap a:%d\nSwap b: %d (%d%%)\nSwap both: %d\n", stacks->move_counter.swap_a, stacks->move_counter.swap_b, (stacks->move_counter.swap_b * 100 / stacks->move_counter.total), stacks->move_counter.swap_both);
 	ft_printf("Push a:%d\nPush b: %d\n\n", stacks->move_counter.push_a, stacks->move_counter.push_b);
 }
 
-void	calculate_total_moves(t_stacks *stacks)
+void	update_total_move_count(t_moves *move_counter)
 {
-	stacks->move_counter.total = 0;
-	stacks->move_counter.total = stacks->move_counter.total + stacks->move_counter.push_a;
-	stacks->move_counter.total = stacks->move_counter.total + stacks->move_counter.push_b;
-	stacks->move_counter.total = stacks->move_counter.total + stacks->move_counter.reverse_rotate_a;
-	stacks->move_counter.total = stacks->move_counter.total + stacks->move_counter.reverse_rotate_b;
-	stacks->move_counter.total = stacks->move_counter.total + stacks->move_counter.reverse_rotate_both;
-	stacks->move_counter.total = stacks->move_counter.total + stacks->move_counter.rotate_a;
-	stacks->move_counter.total = stacks->move_counter.total + stacks->move_counter.rotate_b;
-	stacks->move_counter.total = stacks->move_counter.total + stacks->move_counter.rotate_both;
-	stacks->move_counter.total = stacks->move_counter.total + stacks->move_counter.swap_a;
-	stacks->move_counter.total = stacks->move_counter.total + stacks->move_counter.swap_b;
-	stacks->move_counter.total = stacks->move_counter.total + stacks->move_counter.swap_both;
+	move_counter->total = 0;
+	move_counter->total = move_counter->total + move_counter->push_a;
+	move_counter->total = move_counter->total + move_counter->push_b;
+	move_counter->total = move_counter->total + move_counter->reverse_rotate_a;
+	move_counter->total = move_counter->total + move_counter->reverse_rotate_b;
+	move_counter->total = move_counter->total + move_counter->reverse_rotate_both;
+	move_counter->total = move_counter->total + move_counter->rotate_a;
+	move_counter->total = move_counter->total + move_counter->rotate_b;
+	move_counter->total = move_counter->total + move_counter->rotate_both;
+	move_counter->total = move_counter->total + move_counter->swap_a;
+	move_counter->total = move_counter->total + move_counter->swap_b;
+	move_counter->total = move_counter->total + move_counter->swap_both;
+}
+
+void	update_total_move_count_for_index(t_stacks *stacks, int i)
+{
+	stacks->b[i].required_moves.total = 0;
+	stacks->b[i].required_moves.total = stacks->b[i].required_moves.total + stacks->b[i].required_moves.push_a;
+	stacks->b[i].required_moves.total = stacks->b[i].required_moves.total + stacks->b[i].required_moves.push_b;
+	stacks->b[i].required_moves.total = stacks->b[i].required_moves.total + stacks->b[i].required_moves.reverse_rotate_a;
+	stacks->b[i].required_moves.total = stacks->b[i].required_moves.total + stacks->b[i].required_moves.reverse_rotate_b;
+	stacks->b[i].required_moves.total = stacks->b[i].required_moves.total + stacks->b[i].required_moves.reverse_rotate_both;
+	stacks->b[i].required_moves.total = stacks->b[i].required_moves.total + stacks->b[i].required_moves.rotate_a;
+	stacks->b[i].required_moves.total = stacks->b[i].required_moves.total + stacks->b[i].required_moves.rotate_b;
+	stacks->b[i].required_moves.total = stacks->b[i].required_moves.total + stacks->b[i].required_moves.rotate_both;
+	stacks->b[i].required_moves.total = stacks->b[i].required_moves.total + stacks->b[i].required_moves.swap_a;
+	stacks->b[i].required_moves.total = stacks->b[i].required_moves.total + stacks->b[i].required_moves.swap_b;
+	stacks->b[i].required_moves.total = stacks->b[i].required_moves.total + stacks->b[i].required_moves.swap_both;
 }
 
