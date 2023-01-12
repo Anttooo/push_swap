@@ -7,13 +7,6 @@
 # include <stdio.h>
 # include "libft/libft.h"
 
-typedef struct s_list_item
-{
-	int	value;
-	int	index;
-	int	required_moves;
-}		t_list_item;
-
 typedef struct s_moves
 {
 	int	push_a;
@@ -27,18 +20,24 @@ typedef struct s_moves
 	int	swap_a;
 	int	swap_b;
 	int	swap_both;
+	int	total;
 }		t_moves;
+
+typedef struct s_list_item
+{
+	int		value;
+	int		index;
+	t_moves	required_moves;
+}		t_list_item;
 
 typedef struct s_stacks 
 {
 	t_list_item	*a;
 	t_list_item	*b;
-	t_moves		moves;
-	int			len;
+	t_moves		move_counter;
 	int			b_len;
 	int			a_len;
 	int			org_len;
-	int			move_count;
 	int			max;
 	int			min;
 	int			split;

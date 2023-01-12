@@ -4,6 +4,7 @@ void	print_stacks(t_stacks *stacks);
 int		is_sorted(t_stacks *stacks);
 void	print_stats(t_stacks *stacks);
 void	print_result(t_stacks *stacks);
+void	calculate_total_moves(t_stacks *stacks);
 
 void	sort_stack(t_stacks *stacks)
 {
@@ -11,7 +12,8 @@ void	sort_stack(t_stacks *stacks)
 
 	i = 0;
 	// Create stack B
-	stacks->b = (t_list_item *)malloc(stacks->len * sizeof(t_list_item));
+	ft_printf("stacks->org_len: %d\n", stacks->org_len);
+	stacks->b = (t_list_item *)malloc(stacks->org_len * sizeof(t_list_item));
 	if (stacks->b == NULL)
 	{
 		freemem(stacks);
@@ -21,23 +23,20 @@ void	sort_stack(t_stacks *stacks)
 	ft_printf("Original stacks:\n");
 	print_stacks(stacks);
 	// Move all but three values to b
-	ft_printf("NEXT: prepare_b\n");
+	// ft_printf("NEXT: prepare_b\n");
 	prepare_b(stacks);
-	ft_printf("Move count after prepare_b: %d moves!\n", stacks->move_count);
-	ft_printf("NEXT: sort_a\n");
+	// ft_printf("NEXT: sort_a\n");
 	sort_a(stacks);
-	ft_printf("After sorting A\n");
-	print_stacks(stacks);
-	ft_printf("NEXT: sort_b\n");
+	// ft_printf("NEXT: sort_b\n");
 	while (is_sorted(stacks) != 1 && i < 1)
 	{
 		sort_b(stacks);
 		i++;
 	}
+	ft_printf("Sorted stacks:\n");
+	print_stacks(stacks);
 	print_result(stacks);
 	print_stats(stacks);
-	// Print stacks in the end
-	print_stacks(stacks);
 }
 
 int	is_sorted(t_stacks *stacks)
@@ -81,17 +80,35 @@ void	print_stacks(t_stacks *stacks)
 
 void	print_result(t_stacks *stacks)
 {
+	calculate_total_moves(stacks);
 	if (is_sorted(stacks) == 1 && stacks->a_len == stacks->org_len)
-		ft_printf("\nSORTED in %d moves!\n", stacks->move_count);
+		ft_printf("\nSORTED in %d moves!\n", stacks->move_counter.total);
 	else
-		ft_printf("NOT SORTED in %d moves!\n", stacks->move_count);
+		ft_printf("NOT SORTED in %d moves!\n", stacks->move_counter.total);
 }
 
 void	print_stats(t_stacks *stacks)
 {
-	ft_printf("\nSTATISTICS \nRotate a: %d (%d%%)\nRotate b: %d\nRotate both: %d\n", stacks->moves.rotate_a, (stacks->moves.rotate_a * 100 / stacks->move_count ), stacks->moves.rotate_b, stacks->moves.rotate_both);
-	ft_printf("Reverse rotate a:%d\nReverse rotate b: %d (%d%%)\nReverse rotate both: %d\n", stacks->moves.reverse_rotate_a, stacks->moves.reverse_rotate_b, (stacks->moves.reverse_rotate_b * 100 / stacks->move_count), stacks->moves.reverse_rotate_both);
-	ft_printf("Swap a:%d\nSwap b: %d (%d%%)\nSwap both: %d\n", stacks->moves.swap_a, stacks->moves.swap_b, (stacks->moves.swap_b * 100 / stacks->move_count), stacks->moves.swap_both);
-	ft_printf("Push a:%d\nPush b: %d\n\n", stacks->moves.push_a, stacks->moves.push_b);
+	calculate_total_moves(stacks);
+	ft_printf("\nSTATISTICS \nRotate a: %d (%d%%)\nRotate b: %d\nRotate both: %d\n", stacks->move_counter.rotate_a, (stacks->move_counter.rotate_a * 100 / stacks->move_counter.total ), stacks->move_counter.rotate_b, stacks->move_counter.rotate_both);
+	ft_printf("Reverse rotate a:%d\nReverse rotate b: %d (%d%%)\nReverse rotate both: %d\n", stacks->move_counter.reverse_rotate_a, stacks->move_counter.reverse_rotate_b, (stacks->move_counter.reverse_rotate_b * 100 / stacks->move_counter.total), stacks->move_counter.reverse_rotate_both);
+	ft_printf("Swap a:%d\nSwap b: %d (%d%%)\nSwap both: %d\n", stacks->move_counter.swap_a, stacks->move_counter.swap_b, (stacks->move_counter.swap_b * 100 / stacks->move_counter.total), stacks->move_counter.swap_both);
+	ft_printf("Push a:%d\nPush b: %d\n\n", stacks->move_counter.push_a, stacks->move_counter.push_b);
+}
+
+void	calculate_total_moves(t_stacks *stacks)
+{
+	stacks->move_counter.total = 0;
+	stacks->move_counter.total = stacks->move_counter.total + stacks->move_counter.push_a;
+	stacks->move_counter.total = stacks->move_counter.total + stacks->move_counter.push_b;
+	stacks->move_counter.total = stacks->move_counter.total + stacks->move_counter.reverse_rotate_a;
+	stacks->move_counter.total = stacks->move_counter.total + stacks->move_counter.reverse_rotate_b;
+	stacks->move_counter.total = stacks->move_counter.total + stacks->move_counter.reverse_rotate_both;
+	stacks->move_counter.total = stacks->move_counter.total + stacks->move_counter.rotate_a;
+	stacks->move_counter.total = stacks->move_counter.total + stacks->move_counter.rotate_b;
+	stacks->move_counter.total = stacks->move_counter.total + stacks->move_counter.rotate_both;
+	stacks->move_counter.total = stacks->move_counter.total + stacks->move_counter.swap_a;
+	stacks->move_counter.total = stacks->move_counter.total + stacks->move_counter.swap_b;
+	stacks->move_counter.total = stacks->move_counter.total + stacks->move_counter.swap_both;
 }
 

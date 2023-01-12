@@ -4,7 +4,6 @@ void	a_index_for_b_values(t_stacks *stacks);
 void	calculate_required_moves(t_stacks *stacks);
 int	moves_to_rotate_a_to_correct_place(t_stacks *stacks, int i);
 int	moves_to_rotate_b_to_correct_place(t_stacks *stacks, int i);
-void	do_next_move(t_stacks *stacks);
 void	handle_one_with_least_moves(t_stacks *stacks);
 
 void	sort_b(t_stacks *stacks)
@@ -24,7 +23,7 @@ void	sort_b(t_stacks *stacks)
 	if (stacks->b_len == 0)
 	{
 		calculate_indexes_in_A(stacks);
-		while (stacks->a[0].index != 0)
+		while (stacks->a[0].index != 0) // TODO: pick the direction with less steps
 		{
 			reverse_rotate_a(stacks);
 			calculate_indexes_in_A(stacks);
@@ -117,25 +116,28 @@ void	calculate_required_moves(t_stacks *stacks)
 		move_to_top_of_b = ft_abs(moves_to_rotate_b_to_correct_place(stacks, i));
 		rotate_a_to_correct_place = ft_abs(moves_to_rotate_a_to_correct_place(stacks, i));
 		// TODO: add the dystem described below which checks if the instructions can be combined
-		stacks->b[i].required_moves = move_to_top_of_b + push + rotate_a_to_correct_place;
+		stacks->b[i].required_moves.total = move_to_top_of_b + push + rotate_a_to_correct_place;
 		// ft_printf("To get %d to its place in A, %d moves would be required.\n",stacks->b[i].value, stacks->b[i].required_moves);
-		if (stacks->b[i].required_moves < stacks->b[stacks->index_with_least_moves_required].required_moves)
+		if (stacks->b[i].required_moves.total < stacks->b[stacks->index_with_least_moves_required].required_moves.total)
 			stacks->index_with_least_moves_required = i;
 		
 		i++;
 	}
 	// ft_printf("Index which requires least moves: %d\n", stacks->index_with_least_moves_required);
-	// Zero index in A has been calculated previously and indexes are in relation to that
-	
-	// the number of moves to get the value to the top of b is equal to the index of the value
-	// moving to top of B = i or b_len - i (??),;
-	// pushing to a = + 1
-	// rotating A to correct index = correct index or a_len - correct index, whichever is smaller
-
-	// I want to move both to the same direction to half the number of steps, so I should store the values for both directions,
-	// Then calculate if the overlapping part / 2 + non-overlapping part is less steps in one of the directions than the two going to
-	// different directions
 }
+
+/* combining instructions
+To figure out smallest amount of instructions for getting A and B to right position
+- calculate number of rotations needed for B using regular and reverse rotation
+- calculate number of rotations needed for B using regular and reverse rotation
+- calculate sum of moves if picking smaller out of reverse and regular for both
+- calculate sum of moves if selecting rotate for both but doing the overlapping amount of moves for both at the same time
+	- The function would be: number of rotate both = smaller out of (rotations_A and rotations_B) + larger out of (rotations_A and rotations_B) - smaller out of those
+- calculate sum of moves if selecting reverse rotate for bobth but doing the overlapping amount of moves for both at the same time
+	- same function as above
+
+*/
+
 
 void	handle_one_with_least_moves(t_stacks *stacks)
 {
