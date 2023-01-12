@@ -16,6 +16,7 @@ int	main(int argc, char **argv)
 	stacks.nr_of_splits = 2;
 	stacks.median = 0;
 	stacks.zero_index = 0;
+	stacks.move_count = 0;
 	stacks.moves.push_a = 0;
 	stacks.moves.push_b = 0;
 	stacks.moves.reverse_rotate_a = 0;
@@ -30,12 +31,6 @@ int	main(int argc, char **argv)
 	stacks.printing_enabled = 1;
 	ft_printf("argc: %d \n", argc); // ONLY FOR DEBUG PURPOSES - REMOVE BEFORE EVAL
 	read_stack(argc, argv, &stacks);
-	ft_printf("original:\n");
-	print_stacks(&stacks);
-	sort_a(&stacks);
-	ft_printf("sorted:\n");
-	print_stacks(&stacks);
-	exit(1);
 	// TODO: add sort check before sorting
 	sort_stack(&stacks);
 	freemem(&stacks);

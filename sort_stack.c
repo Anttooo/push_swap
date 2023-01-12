@@ -20,10 +20,20 @@ void	sort_stack(t_stacks *stacks)
 	// Print stacks in the beginning
 	ft_printf("Original stacks:\n");
 	print_stacks(stacks);
-	// Keep looping the sort function while it is not sorted
+	// Move all but three values to b
+	ft_printf("NEXT: prepare_b\n");
 	prepare_b(stacks);
-	while (is_sorted(stacks) != 1 && i++ < 5)
+	ft_printf("Move count after prepare_b: %d moves!\n", stacks->move_count);
+	ft_printf("NEXT: sort_a\n");
+	sort_a(stacks);
+	ft_printf("After sorting A\n");
+	print_stacks(stacks);
+	ft_printf("NEXT: sort_b\n");
+	while (is_sorted(stacks) != 1 && i < 1)
+	{
 		sort_b(stacks);
+		i++;
+	}
 	print_result(stacks);
 	print_stats(stacks);
 	// Print stacks in the end
@@ -35,6 +45,8 @@ int	is_sorted(t_stacks *stacks)
 	int	i;
 
 	i = 0;
+	if (stacks->a_len < stacks->org_len)
+		return (0);
 	while (i < stacks->a_len - 1)
 	{
 		if (stacks->a[i].value < stacks->a[i + 1].value)
@@ -70,16 +82,16 @@ void	print_stacks(t_stacks *stacks)
 void	print_result(t_stacks *stacks)
 {
 	if (is_sorted(stacks) == 1 && stacks->a_len == stacks->org_len)
-		ft_printf("SORTED in %d moves!\n", stacks->move_count);
+		ft_printf("\nSORTED in %d moves!\n", stacks->move_count);
 	else
-		ft_printf("Was not sorted in %d moves!\n", stacks->move_count);
+		ft_printf("NOT SORTED in %d moves!\n", stacks->move_count);
 }
 
 void	print_stats(t_stacks *stacks)
 {
-	ft_printf("Moves used: \nRotate a: %d (%d%%)\nRotate b: %d\nRotate both: %d\n", stacks->moves.rotate_a, (stacks->moves.rotate_a * 100 / stacks->move_count ), stacks->moves.rotate_b, stacks->moves.rotate_both);
+	ft_printf("\nSTATISTICS \nRotate a: %d (%d%%)\nRotate b: %d\nRotate both: %d\n", stacks->moves.rotate_a, (stacks->moves.rotate_a * 100 / stacks->move_count ), stacks->moves.rotate_b, stacks->moves.rotate_both);
 	ft_printf("Reverse rotate a:%d\nReverse rotate b: %d (%d%%)\nReverse rotate both: %d\n", stacks->moves.reverse_rotate_a, stacks->moves.reverse_rotate_b, (stacks->moves.reverse_rotate_b * 100 / stacks->move_count), stacks->moves.reverse_rotate_both);
 	ft_printf("Swap a:%d\nSwap b: %d (%d%%)\nSwap both: %d\n", stacks->moves.swap_a, stacks->moves.swap_b, (stacks->moves.swap_b * 100 / stacks->move_count), stacks->moves.swap_both);
-	ft_printf("Push a:%d\nPush b: %d\n", stacks->moves.push_a, stacks->moves.push_b);
+	ft_printf("Push a:%d\nPush b: %d\n\n", stacks->moves.push_a, stacks->moves.push_b);
 }
 

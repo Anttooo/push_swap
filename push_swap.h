@@ -11,7 +11,7 @@ typedef struct s_list_item
 {
 	int	value;
 	int	index;
-	int	distance;
+	int	required_moves;
 }		t_list_item;
 
 typedef struct s_moves
@@ -56,7 +56,7 @@ void	freemem(t_stacks *stacks);
 void	prepare_b(t_stacks *stacks);
 void	sort_b(t_stacks *stacks);
 void	sort_a(t_stacks *stacks);
-void	get_indexes_for_median(t_stacks *stacks);
+void	calculate_indexes_in_A(t_stacks *stacks);
 void	print_stacks(t_stacks *stacks);
 
 // Push swap language instructions, not included in the final version

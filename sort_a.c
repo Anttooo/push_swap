@@ -12,7 +12,7 @@ void	sort_a(t_stacks *stacks)
 	int	a;
 	int	b;
 	int	c;
-
+	
 	a = stacks->a[0].value;
 	b = stacks->a[1].value;
 	c = stacks->a[2].value;
@@ -23,31 +23,24 @@ void	sort_a(t_stacks *stacks)
 	}
 	else if (is_acb(a,b,c) == 1) // (1, 3, 2)
 	{
-		// ft_printf("ra\n");
 		reverse_rotate_a(stacks);
-		// ft_printf("sa\n");
 		swap_a(stacks);
 	}
 	else if (is_bca(a,b,c)) // (2, 3, 1)
 	{
-		// ft_printf("rra\n");
 		reverse_rotate_a(stacks);
 	}
 	else if (is_cab(a,b,c)) // (3, 1, 2)
 	{
-		// ft_printf("ra\n");
 		rotate_a(stacks);
 	}
 	else if (is_bac(a,b,c)) // (2, 1, 3)
 	{
-		// ft_printf("sa\n");
 		swap_a(stacks);
 	}
 	else if (is_cba(a,b,c)) // (3, 2, 1)
 	{
-		// ft_printf("ra\n");
 		rotate_a(stacks);
-		// ft_printf("sa\n");
 		swap_a(stacks);
 	}
 }

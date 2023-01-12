@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-void	get_indexes_for_median(t_stacks *stacks)
+void	calculate_indexes_in_A(t_stacks *stacks)
 {
 	int	i;
 	int	j;
@@ -25,7 +25,7 @@ void	get_indexes_for_median(t_stacks *stacks)
 			j++;
 		}
 		stacks->a[i].index = index;
-		ft_printf("number %d of A gets index %d\n", stacks->a[i].value, index);
+		// ft_printf("number %d of A gets index %d\n", stacks->a[i].value, index);
 		i++;
 	}
 }
