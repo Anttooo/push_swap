@@ -3,20 +3,32 @@
 void	a_index_for_b_values(t_stacks *stacks);
 void	calculate_required_moves(t_stacks *stacks);
 int	moves_to_rotate_a_to_correct_place(t_stacks *stacks, int i);
+int	moves_to_rotate_b_to_correct_place(t_stacks *stacks, int i);
 void	do_next_move(t_stacks *stacks);
+void	handle_one_with_least_moves(t_stacks *stacks);
 
 void	sort_b(t_stacks *stacks)
 {
-	int	i;
+	// int	i;
 
-	i = 0;
+	// i = 0;
 	// ft_printf("required_moves sum: %d\n", required_moves_sum);
-	while (stacks->b_len > 0 && i < 1)
+	while (stacks->b_len > 0)
 	{
 		a_index_for_b_values(stacks);
 		calculate_required_moves(stacks);
-		i++;
+		handle_one_with_least_moves(stacks);
+		// i++;
 		// do_next_move(stacks);	
+	}
+	if (stacks->b_len == 0)
+	{
+		calculate_indexes_in_A(stacks);
+		while (stacks->a[0].index != 0)
+		{
+			reverse_rotate_a(stacks);
+			calculate_indexes_in_A(stacks);
+		}
 	}
 }
 
@@ -83,7 +95,7 @@ void	a_index_for_b_values(t_stacks *stacks)
 			j++;
 		}
 		stacks->b[i].index = index;
-		ft_printf("number %d from B gets relative index %d in A, relative to zero index at index %d\n", stacks->b[i].value, index, stacks->zero_index);
+		// ft_printf("number %d from B gets relative index %d in A, relative to zero index at index %d\n", stacks->b[i].value, index, stacks->zero_index);
 		i++;
 	}
 	// calculate the absolute indexes in A based on the relative index and the position of zero_index
@@ -98,16 +110,21 @@ void	calculate_required_moves(t_stacks *stacks)
 
 	i = 0;
 	push = 1;
+	stacks->index_with_least_moves_required = 0;
 	while (i < stacks->b_len)
 	{
 		// TODO: add a check here if it should be rotated to forward or backward
-		move_to_top_of_b = i;
-		rotate_a_to_correct_place = moves_to_rotate_a_to_correct_place(stacks, i);
+		move_to_top_of_b = ft_abs(moves_to_rotate_b_to_correct_place(stacks, i));
+		rotate_a_to_correct_place = ft_abs(moves_to_rotate_a_to_correct_place(stacks, i));
 		// TODO: add the dystem described below which checks if the instructions can be combined
 		stacks->b[i].required_moves = move_to_top_of_b + push + rotate_a_to_correct_place;
-		ft_printf("For number %d in B, %d moves would be required.\n",stacks->b[i].value, stacks->b[i].required_moves);
+		// ft_printf("To get %d to its place in A, %d moves would be required.\n",stacks->b[i].value, stacks->b[i].required_moves);
+		if (stacks->b[i].required_moves < stacks->b[stacks->index_with_least_moves_required].required_moves)
+			stacks->index_with_least_moves_required = i;
+		
 		i++;
 	}
+	// ft_printf("Index which requires least moves: %d\n", stacks->index_with_least_moves_required);
 	// Zero index in A has been calculated previously and indexes are in relation to that
 	
 	// the number of moves to get the value to the top of b is equal to the index of the value
@@ -118,20 +135,55 @@ void	calculate_required_moves(t_stacks *stacks)
 	// I want to move both to the same direction to half the number of steps, so I should store the values for both directions,
 	// Then calculate if the overlapping part / 2 + non-overlapping part is less steps in one of the directions than the two going to
 	// different directions
+}
 
-	// ft_printf("zero_index: %d\n", zero_index);
-	i = 0;
-	while (i < stacks->b_len)
+void	handle_one_with_least_moves(t_stacks *stacks)
+{
+	int	b_rotations_needed;
+	int	a_rotations_needed;
+	int	i;
+
+	
+	// the index which requires least moves is stored in stacks->index_with_least_moves_required
+	b_rotations_needed = moves_to_rotate_b_to_correct_place(stacks, stacks->index_with_least_moves_required);
+	// ft_printf("B will be rotate %d times\n", b_rotations_needed);
+	// the number of moves for a needed can be calculated with the function
+	a_rotations_needed = moves_to_rotate_a_to_correct_place(stacks, stacks->index_with_least_moves_required);
+	// ft_printf("A will be rotate %d times\n", a_rotations_needed);
+	// TODO: add rotation combination logic
+
+	// Rotate A - TODO: add direction logic
+	i = a_rotations_needed;
+	while (i != 0)
 	{
-		if (i > stacks->zero_index)
-			stacks->b[i].required_moves = (i - stacks->zero_index) - stacks->b[i].index;
-		else if (i < stacks->zero_index)
-			stacks->b[i].required_moves = (stacks->b_len - stacks->zero_index) + i - stacks->b[i].index;
+		if (i > 0)
+		{
+			rotate_a(stacks);
+			i--;
+		}
 		else
-			stacks->b[i].required_moves = 0;
-		// ft_printf("number %d of B gets required_moves %d, with index %d\n", stacks->b[i].value, stacks->b[i].required_moves, stacks->b[i].index);
-		i++;
+		{
+			reverse_rotate_a(stacks);
+			i++;
+		}
 	}
+	i = b_rotations_needed;
+	// Rotate B - TODO: add direction logic
+	while (i != 0)
+	{
+		if (i > 0)
+		{
+			rotate_b(stacks);
+			i--;
+		}
+		else
+		{
+			reverse_rotate_b(stacks);
+			i++;
+		}
+	}
+	// Push to A
+	push_to_a(stacks);
 }
 
 // To rotate a to correct place, the number at index 0 has to be the next one from the one being pushed, so larger.
@@ -139,12 +191,45 @@ void	calculate_required_moves(t_stacks *stacks)
 int	moves_to_rotate_a_to_correct_place(t_stacks *stacks, int i)
 {
 	int	moves;
+	int	absolute_index_in_a;
 
+	// the i here is absolute index in B and index is the correct relative index in A
 	// TODO: add the check for shorter direction for both of these
+	// if going to beginning of array is faster
 	if (stacks->b[i].index + stacks->zero_index > stacks->a_len)
-		moves = stacks->b[i].index + stacks->zero_index - stacks->a_len;
+		absolute_index_in_a = stacks->b[i].index + stacks->zero_index - stacks->a_len;
 	else
-		moves = stacks->b[i].index + stacks->zero_index;
+		absolute_index_in_a = stacks->b[i].index + stacks->zero_index;
+	if (absolute_index_in_a < (stacks->a_len - absolute_index_in_a))
+	{
+		moves = absolute_index_in_a;
+		// ft_printf("Use regular rotate with A, it will require %d moves\n", moves);
+	}
+	else
+	{
+		moves = -1 * (stacks->a_len - absolute_index_in_a);
+		// ft_printf("The right absolute index in A is %d\n", absolute_index_in_a);
+		// ft_printf("Use reverse rotate with A, it will require %d moves\n", moves);
+	}
+	return (moves);
+}
+
+int	moves_to_rotate_b_to_correct_place(t_stacks *stacks, int i)
+{
+	int	moves;
+
+	// the i here is absolute index in B
+	// if i is closer to beginning of array
+	if (i < (stacks->b_len - i))
+	{
+		moves = i;
+		// ft_printf("Use regular rotate with B, it will require %d moves\n", moves);
+	}
+	else // if i is closer to end of array
+	{
+		moves = -1 * (stacks->b_len - i);
+		// ft_printf("Use reverse rotate with B, it will require %d moves\n", moves);
+	}
 	return (moves);
 }
 

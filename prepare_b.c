@@ -23,7 +23,7 @@ void	push_split_into_b(t_stacks *stacks)
 	i = 0;
 	calculate_limits(stacks);
 	values_to_push = count_values_to_move(stacks);
-	ft_printf("Values to push for this split: %d\n", values_to_push);
+	// ft_printf("Values to push for this split: %d\n", values_to_push);
 	pushed = 0;
 	while (i <= stacks->a_len && pushed < values_to_push)
 	{
@@ -63,7 +63,7 @@ int	count_values_to_move(t_stacks *stacks)
 		if (stacks->a[i].value == stacks->max || stacks->a[i].value == stacks->min || stacks->a[i].value == stacks->median);
 		else if (stacks->a[i].value <= stacks->upper_limit && stacks->a[i].value >= stacks->lower_limit)
 		{
-			ft_printf("value %d fits between the lower limit and upper limit\n", stacks->a[i].value);
+			// ft_printf("value %d fits between the lower limit and upper limit\n", stacks->a[i].value);
 			counter++;
 		}
 		i++;
@@ -86,7 +86,7 @@ void	calculate_limits(t_stacks *stacks)
 		stacks->lower_limit = stacks->median + 1;
 		stacks->upper_limit = stacks->max;
 	}
-	ft_printf("lower limit: %d, upper limit: %d\n", stacks->lower_limit, stacks->upper_limit);
+	// ft_printf("lower limit: %d, upper limit: %d\n", stacks->lower_limit, stacks->upper_limit);
 }
 
 void	find_median(t_stacks *stacks)
@@ -96,14 +96,14 @@ void	find_median(t_stacks *stacks)
 
 	i = 0;
 	middle_value = stacks->a_len / 2 - 1;
-	ft_printf("middle value: %d\n", middle_value);
+	// ft_printf("middle value: %d\n", middle_value);
 	calculate_indexes_in_A(stacks);
 	while (i < stacks->a_len)
 	{
 		if (stacks->a[i].index == middle_value)
 		{
 			stacks->median = stacks->a[i].value;
-			ft_printf("median value: %d\n", stacks->median);
+			// ft_printf("median value: %d\n", stacks->median);
 			break;
 		}
 		else

@@ -28,7 +28,7 @@ int	main(int argc, char **argv)
 	stacks.moves.swap_a = 0;
 	stacks.moves.swap_b = 0;
 	stacks.moves.swap_both = 0;
-	stacks.printing_enabled = 1;
+	stacks.printing_enabled = 0;
 	ft_printf("argc: %d \n", argc); // ONLY FOR DEBUG PURPOSES - REMOVE BEFORE EVAL
 	read_stack(argc, argv, &stacks);
 	// TODO: add sort check before sorting

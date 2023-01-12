@@ -48,6 +48,7 @@ typedef struct s_stacks
 	int			zero_index;
 	int			median;
 	int			printing_enabled;
+	int			index_with_least_moves_required;
 }		t_stacks;
 
 // add function definitions here
