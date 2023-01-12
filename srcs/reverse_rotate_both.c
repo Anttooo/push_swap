@@ -19,7 +19,6 @@ void	reverse_rotate_both(t_stacks *stacks)
 		stacks->printing_enabled = 1;
 	}
 	stacks->move_counter.reverse_rotate_both++;
-	stacks->move_counter.total--;
 	stacks->move_counter.reverse_rotate_a--;
 	stacks->move_counter.reverse_rotate_b--;
 }
