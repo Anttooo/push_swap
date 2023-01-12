@@ -27,8 +27,15 @@ int	main(int argc, char **argv)
 	stacks.moves.swap_a = 0;
 	stacks.moves.swap_b = 0;
 	stacks.moves.swap_both = 0;
+	stacks.printing_enabled = 1;
 	ft_printf("argc: %d \n", argc); // ONLY FOR DEBUG PURPOSES - REMOVE BEFORE EVAL
 	read_stack(argc, argv, &stacks);
+	ft_printf("original:\n");
+	print_stacks(&stacks);
+	sort_a(&stacks);
+	ft_printf("sorted:\n");
+	print_stacks(&stacks);
+	exit(1);
 	// TODO: add sort check before sorting
 	sort_stack(&stacks);
 	freemem(&stacks);

@@ -18,6 +18,8 @@ void	reverse_rotate_b(t_stacks *stacks)
 		}
 		stacks->b[0].value = temp_holder;
 	}
+	if (stacks->printing_enabled == 1)
+		ft_printf("rrb\n");
 	stacks->move_count++;
 	stacks->moves.reverse_rotate_b++;
 }

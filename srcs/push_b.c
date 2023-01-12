@@ -37,6 +37,8 @@ void	push_to_b(t_stacks *stacks)
 			i++;
 		}
 	}
+	if (stacks->printing_enabled == 1)
+		ft_printf("pb\n");
 	stacks->move_count++;
 	stacks->moves.push_b++;
 }

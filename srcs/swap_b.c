@@ -13,6 +13,8 @@ void	swap_b(t_stacks *stacks)
 		stacks->b[0].value = stacks->b[1].value;
 		stacks->b[1].value = temp_holder;
 	}
+	if (stacks->printing_enabled == 1)
+		ft_printf("sb\n");
 	stacks->move_count++;
 	stacks->moves.swap_b++;
 }
