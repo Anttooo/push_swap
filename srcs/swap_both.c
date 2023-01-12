@@ -18,8 +18,7 @@ void	swap_both(t_stacks *stacks)
 		ft_printf("ss\n");
 		stacks->printing_enabled = 1;
 	}
-	stacks->moves.swap_both++;
-	stacks->move_count--;
-	stacks->moves.swap_a--;
-	stacks->moves.swap_b--;
+	stacks->move_counter.swap_both++;
+	stacks->move_counter.swap_a--;
+	stacks->move_counter.swap_b--;
 }

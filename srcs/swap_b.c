@@ -15,6 +15,6 @@ void	swap_b(t_stacks *stacks)
 	}
 	if (stacks->printing_enabled == 1)
 		ft_printf("sb\n");
-	stacks->move_count++;
-	stacks->moves.swap_b++;
+	
+	stacks->move_counter.swap_b++;
 }

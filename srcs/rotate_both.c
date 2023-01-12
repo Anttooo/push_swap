@@ -18,8 +18,8 @@ void	rotate_both(t_stacks *stacks)
 		ft_printf("rr\n");
 		stacks->printing_enabled = 1;
 	}
-	stacks->moves.rotate_both++;
-	stacks->move_count--;
-	stacks->moves.rotate_a--;
-	stacks->moves.rotate_b--;
+	stacks->move_counter.rotate_both++;
+	stacks->move_counter.total--;
+	stacks->move_counter.rotate_a--;
+	stacks->move_counter.rotate_b--;
 }

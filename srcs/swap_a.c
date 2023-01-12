@@ -15,6 +15,6 @@ void	swap_a(t_stacks *stacks)
 	}
 	if (stacks->printing_enabled == 1)
 		ft_printf("sa\n");
-	stacks->move_count++;
-	stacks->moves.swap_a++;
+	
+	stacks->move_counter.swap_a++;
 }

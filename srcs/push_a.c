@@ -36,6 +36,5 @@ void	push_to_a(t_stacks *stacks)
 	}
 	if (stacks->printing_enabled == 1)
 		ft_printf("pa\n");
-	stacks->move_count++;
-	stacks->moves.push_a++;
+	stacks->move_counter.push_a++;
 }
