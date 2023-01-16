@@ -54,13 +54,36 @@ typedef struct s_stacks
 void	sort_stack(t_stacks *stacks);
 void	freemem(t_stacks *stacks);
 void	prepare_b(t_stacks *stacks);
-void	push_next_with_least_moves(t_stacks *stacks);
+void	complete_next_move(t_stacks *stacks);
 void	sort_a(t_stacks *stacks);
 void	calculate_indexes_in_A(t_stacks *stacks);
 void	print_stacks(t_stacks *stacks);
 void	update_total_move_count(t_moves *move_counter);
 void	update_total_move_count_for_index(t_stacks *stacks, int i);
 void	initialise_data(t_stacks *stacks, int argc);
+
+// compute indexes in A
+void	compute_indexes_in_a_for_b_values(t_stacks *stacks);
+void	update_index_of_smallest_value_in_a(t_stacks *stacks);
+void	reset_stack_b_indexes(t_stacks *stacks);
+void	compute_index_for_each(t_stacks *stacks);
+
+
+// compute optimal moves
+void	compute_optimal_move_for_each(t_stacks *stacks);
+void	compute_optimal_rotations(t_stacks *stacks, int i);
+
+// functions for figuring out optimal rotation
+int	get_moves_with_both_directions(t_stacks *stacks, int i);
+int	get_moves_with_reverse_rotate(t_stacks *stacks, int i);
+int	get_moves_with_rotate(t_stacks *stacks, int i);
+void	use_both_directions(t_stacks *stacks, int i);
+void	use_reverse_rotate(t_stacks *stacks, int i);
+void	use_rotate(t_stacks *stacks, int i);
+
+// Execute the move with least steps
+void	execute_move_with_least_steps(t_stacks *stacks);
+void	execute_instruction(t_stacks *stacks, void (*f)(t_stacks *), int moves);
 
 // Debug printing, remove before submitting
 void	print_stacks(t_stacks *stacks);

@@ -9,7 +9,7 @@ void	sort_stack(t_stacks *stacks)
 	prepare_b(stacks);
 	sort_a(stacks);
 	while (is_sorted(stacks) != 1)
-		push_next_with_least_moves(stacks);
+		complete_next_move(stacks);
 	update_total_move_count(&stacks->move_counter);
 	print_result(stacks); // TODO: remove this before submitting
 }

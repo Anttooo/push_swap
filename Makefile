@@ -19,7 +19,7 @@ SRCS = ./push_swap.c \
 		./data_initialisation.c \
 		./print_debug_info.c \
 		./prepare_b.c \
-		./push_next_with_least_moves.c \
+		./complete_next_move.c \
 		./sort_a.c \
 		./srcs/push_a.c \
 		./srcs/push_b.c \
@@ -31,7 +31,10 @@ SRCS = ./push_swap.c \
 		./srcs/rotate_both.c \
 		./srcs/reverse_rotate_a.c \
 		./srcs/reverse_rotate_b.c \
-		./srcs/reverse_rotate_both.c		
+		./srcs/reverse_rotate_both.c \
+		./compute_optimal_rotation.c \
+		./select_optimal_rotation.c \
+		./execute_instructions.c
 
 OBJS = $(notdir $(SRCS:%.c=%.o))
 
