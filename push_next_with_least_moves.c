@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-void	a_index_for_b_values(t_stacks *stacks);
+void	compute_indexes_in_a_for_b_values(t_stacks *stacks);
 void	compute_optimal_move(t_stacks *stacks);
 void	compute_moves_needed_for_stack_a(t_stacks *stacks, int i);
 void	compute_moves_needed_for_stack_b(t_stacks *stacks, int i);
@@ -13,18 +13,22 @@ int		get_moves_without_combination(t_stacks *stacks, int i);
 void	use_rotate(t_stacks *stacks, int i);
 void	use_reverse_rotate(t_stacks *stacks, int i);
 void	rotate_without_combination(t_stacks *stacks, int i);
+void	update_index_of_smallest_value_in_a(t_stacks *stacks);
+void	reset_stack_b_indexes(t_stacks *stacks);
+void	compute_index_for_each(t_stacks *stacks);
 
 void	push_next_with_least_moves(t_stacks *stacks) // TODO: rename (or restructure) this as the function handles multiple things at them moment and that's not reflected in the name
 {
 	while (stacks->b_len > 0)
 	{
-		a_index_for_b_values(stacks);
+		compute_indexes_in_a_for_b_values(stacks);
 		compute_optimal_move(stacks);
 		execute_optimal_move(stacks);
 	}
+	// this part is rotating A so that the smallest number is at index 0, it should be a separate function
 	if (stacks->b_len == 0)
 	{
-		calculate_indexes_in_A(stacks);
+		 
 		while (stacks->a[0].index != 0) // TODO: pick the direction with less steps
 		{
 			reverse_rotate_a(stacks);
@@ -33,16 +37,12 @@ void	push_next_with_least_moves(t_stacks *stacks) // TODO: rename (or restructur
 	}
 }
 
-void	a_index_for_b_values(t_stacks *stacks)
+void	update_index_of_smallest_value_in_a(t_stacks *stacks)
 {
 	int	i;
-	int	j;
-	int	index;
 
-	i = 0;
-	index = 0;
+	i = 0;	
 	stacks->zero_index = 0;
-	// calculate the index of lowest value as the relative starting point
 	calculate_indexes_in_A(stacks);
 	while (i < stacks->a_len)
 	{
@@ -50,15 +50,28 @@ void	a_index_for_b_values(t_stacks *stacks)
 			stacks->zero_index = i;
 		i++;
 	}
+}
+
+void	reset_stack_b_indexes(t_stacks *stacks)
+{
+	int	i;
+
 	i = 0;
-	// reset indexes of values in b
 	while (i < stacks->b_len)
 	{
 		stacks->b[i].index = 0;
 		i++;
 	}
+}
+
+void	compute_index_for_each(t_stacks *stacks)
+{
+	int	i;
+	int	j;
+	int	index;
+
 	i = 0;
-	// calculate the relative indexes in a in relation to the zero_index value
+	index = 0;
 	while (i < stacks->b_len)
 	{
 		j = 0;
@@ -68,27 +81,25 @@ void	a_index_for_b_values(t_stacks *stacks)
 			if (j + stacks->zero_index < stacks->a_len)
 			{
 				if (stacks->b[i].value > stacks->a[j + stacks->zero_index].value)
-				{
-					// ft_printf("1 Value in B: %d is larger than value with index %d at A: %d\n", stacks->b[i].value, j + stacks->zero_index, stacks->a[j + stacks->zero_index].value);
 					index++;
-				}
 			}
 			else
 			{
 				if (stacks->b[i].value > stacks->a[(j + stacks->zero_index) - stacks->a_len].value)
-				{
-					// ft_printf("2 Value in B: %d is larger than value with index %d at A: %d\n", stacks->b[i].value, (j + stacks->zero_index) - stacks->a_len, stacks->a[(j + stacks->zero_index) - stacks->a_len].value);
-					index++;
-				}
-				else;
-					// ft_printf("Number %d is smaller than number %d, so we stop here.\n", stacks->b[i].value, stacks->a[(j + stacks->zero_index) - stacks->a_len].value);
+					index++;				
 			}
 			j++;
 		}
 		stacks->b[i].index = index;
-		// ft_printf("number %d from B gets relative index %d in A, relative to zero index at index %d\n", stacks->b[i].value, index, stacks->zero_index);
 		i++;
 	}
+}
+
+void	compute_indexes_in_a_for_b_values(t_stacks *stacks)
+{
+	update_index_of_smallest_value_in_a(stacks);
+	reset_stack_b_indexes(stacks);
+	compute_index_for_each(stacks);
 }
 
 void	compute_optimal_move(t_stacks *stacks)
@@ -109,7 +120,6 @@ void	compute_optimal_move(t_stacks *stacks)
 			stacks->index_with_least_moves_required = i;
 		i++;
 	}
-	// ft_printf("Index which requires least moves: %d\n", stacks->index_with_least_moves_required);
 }
 
 void	execute_optimal_move(t_stacks *stacks)
