@@ -1,12 +1,12 @@
 #include "push_swap.h"
 
 void	compute_indexes_in_a_for_b_values(t_stacks *stacks);
-void	compute_optimal_move(t_stacks *stacks);
+void	compute_optimal_move_for_each(t_stacks *stacks);
 void	compute_moves_needed_for_stack_a(t_stacks *stacks, int i);
 void	compute_moves_needed_for_stack_b(t_stacks *stacks, int i);
-void	reset_move_counts(t_stacks *stacks, int i);
+void	reset_move_count(t_stacks *stacks, int i);
 void	compute_optimal_rotations(t_stacks *stacks, int i);
-void	execute_optimal_move(t_stacks *stacks);
+void	execute_move_with_least_steps(t_stacks *stacks);
 int		get_moves_with_rotate(t_stacks *stacks, int i);
 int		get_moves_with_reverse_rotate(t_stacks *stacks, int i);
 int		get_moves_without_combination(t_stacks *stacks, int i);
@@ -22,8 +22,8 @@ void	push_next_with_least_moves(t_stacks *stacks) // TODO: rename (or restructur
 	while (stacks->b_len > 0)
 	{
 		compute_indexes_in_a_for_b_values(stacks);
-		compute_optimal_move(stacks);
-		execute_optimal_move(stacks);
+		compute_optimal_move_for_each(stacks);
+		execute_move_with_least_steps(stacks);
 	}
 	// this part is rotating A so that the smallest number is at index 0, it should be a separate function
 	if (stacks->b_len == 0)
@@ -35,6 +35,57 @@ void	push_next_with_least_moves(t_stacks *stacks) // TODO: rename (or restructur
 			calculate_indexes_in_A(stacks);
 		}
 	}
+}
+
+void	compute_indexes_in_a_for_b_values(t_stacks *stacks)
+{
+	update_index_of_smallest_value_in_a(stacks);
+	reset_stack_b_indexes(stacks);
+	compute_index_for_each(stacks);
+}
+
+void	compute_optimal_move_for_each(t_stacks *stacks)
+{
+	int	i;
+
+	i = 0;
+	stacks->index_with_least_moves_required = 0;
+	while (i < stacks->b_len)
+	{
+		reset_move_count(stacks, i);
+		compute_moves_needed_for_stack_b(stacks, i);
+		compute_moves_needed_for_stack_a(stacks, i);
+		compute_optimal_rotations(stacks, i);
+		stacks->b[i].required_moves.push_a = 1;
+		update_total_move_count_for_index(stacks, i); // TODO: rename
+		if (stacks->b[i].required_moves.total < stacks->b[stacks->index_with_least_moves_required].required_moves.total)
+			stacks->index_with_least_moves_required = i;
+		i++;
+	}
+}
+
+void	execute_instruction(t_stacks *stacks, void (*f)(t_stacks *), int moves)
+{
+	while (moves > 0)
+	{
+		f(stacks);
+		moves--;
+	}
+}
+
+void	execute_move_with_least_steps(t_stacks *stacks)
+{
+	int	i;
+
+	i = stacks->index_with_least_moves_required;
+	execute_instruction(stacks, rotate_a, stacks->b[i].required_moves.ra);
+	execute_instruction(stacks, rotate_b, stacks->b[i].required_moves.rb);
+	execute_instruction(stacks, rotate_both, stacks->b[i].required_moves.rr);
+	execute_instruction(stacks, reverse_rotate_a, stacks->b[i].required_moves.rra);
+	execute_instruction(stacks, reverse_rotate_b, stacks->b[i].required_moves.rrb);
+	execute_instruction(stacks, reverse_rotate_both, stacks->b[i].required_moves.rrr);
+	// Push to A
+	push_to_a(stacks);
 }
 
 void	update_index_of_smallest_value_in_a(t_stacks *stacks)
@@ -95,70 +146,6 @@ void	compute_index_for_each(t_stacks *stacks)
 	}
 }
 
-void	compute_indexes_in_a_for_b_values(t_stacks *stacks)
-{
-	update_index_of_smallest_value_in_a(stacks);
-	reset_stack_b_indexes(stacks);
-	compute_index_for_each(stacks);
-}
-
-void	compute_optimal_move(t_stacks *stacks)
-{
-	int	i;
-
-	i = 0;
-	stacks->index_with_least_moves_required = 0;
-	while (i < stacks->b_len)
-	{
-		reset_move_counts(stacks, i);
-		compute_moves_needed_for_stack_b(stacks, i);
-		compute_moves_needed_for_stack_a(stacks, i);
-		compute_optimal_rotations(stacks, i);
-		stacks->b[i].required_moves.push_a = 1;
-		update_total_move_count_for_index(stacks, i); // TODO: rename
-		if (stacks->b[i].required_moves.total < stacks->b[stacks->index_with_least_moves_required].required_moves.total)
-			stacks->index_with_least_moves_required = i;
-		i++;
-	}
-}
-
-void	execute_optimal_move(t_stacks *stacks)
-{
-	// TODO: restrucure by using function pointers and a single generic function for doing all of these
-	while (stacks->b[stacks->index_with_least_moves_required].required_moves.rotate_a > 0)
-	{
-		rotate_a(stacks);
-		stacks->b[stacks->index_with_least_moves_required].required_moves.rotate_a--;
-	}
-	while (stacks->b[stacks->index_with_least_moves_required].required_moves.reverse_rotate_a > 0)
-	{
-		reverse_rotate_a(stacks);
-		stacks->b[stacks->index_with_least_moves_required].required_moves.reverse_rotate_a--;
-	}
-	while (stacks->b[stacks->index_with_least_moves_required].required_moves.rotate_b > 0)
-	{
-		rotate_b(stacks);
-		stacks->b[stacks->index_with_least_moves_required].required_moves.rotate_b--;
-	}
-	while (stacks->b[stacks->index_with_least_moves_required].required_moves.reverse_rotate_b > 0)
-	{
-		reverse_rotate_b(stacks);
-		stacks->b[stacks->index_with_least_moves_required].required_moves.reverse_rotate_b--;
-	}
-	while (stacks->b[stacks->index_with_least_moves_required].required_moves.reverse_rotate_both > 0)
-	{
-		reverse_rotate_both(stacks);
-		stacks->b[stacks->index_with_least_moves_required].required_moves.reverse_rotate_both--;
-	}
-	while (stacks->b[stacks->index_with_least_moves_required].required_moves.rotate_both > 0)
-	{
-		rotate_both(stacks);
-		stacks->b[stacks->index_with_least_moves_required].required_moves.rotate_both--;
-	}
-	// Push to A
-	push_to_a(stacks);
-}
-
 void	compute_optimal_rotations(t_stacks *stacks, int i)
 {
 	int	without_combination;
@@ -182,14 +169,14 @@ int	get_moves_without_combination(t_stacks *stacks, int i)
 	int	moves;
 
 	moves = 0;
-	if (stacks->b[i].required_moves.reverse_rotate_a < stacks->b[i].required_moves.rotate_a)
-		moves = stacks->b[i].required_moves.reverse_rotate_a;
+	if (stacks->b[i].required_moves.rra < stacks->b[i].required_moves.ra)
+		moves = stacks->b[i].required_moves.rra;
 	else
-		moves = stacks->b[i].required_moves.rotate_a;
-	if (stacks->b[i].required_moves.reverse_rotate_b < stacks->b[i].required_moves.rotate_b)
-		moves = moves + stacks->b[i].required_moves.reverse_rotate_b;
+		moves = stacks->b[i].required_moves.ra;
+	if (stacks->b[i].required_moves.rrb < stacks->b[i].required_moves.rb)
+		moves = moves + stacks->b[i].required_moves.rrb;
 	else
-		moves = moves + stacks->b[i].required_moves.rotate_b;
+		moves = moves + stacks->b[i].required_moves.rb;
 	return (moves);
 }
 
@@ -198,12 +185,12 @@ int	get_moves_with_reverse_rotate(t_stacks *stacks, int i)
 	int	moves;
 	
 	moves = 0;
-	if (stacks->b[i].required_moves.reverse_rotate_b >= stacks->b[i].required_moves.reverse_rotate_a)
+	if (stacks->b[i].required_moves.rrb >= stacks->b[i].required_moves.rra)
 	{
-		moves = stacks->b[i].required_moves.reverse_rotate_b;
+		moves = stacks->b[i].required_moves.rrb;
 	}
 	else 
-		moves = stacks->b[i].required_moves.reverse_rotate_a;
+		moves = stacks->b[i].required_moves.rra;
 	return (moves);
 }
 
@@ -212,60 +199,60 @@ int	get_moves_with_rotate(t_stacks *stacks, int i)
 	int	moves;
 	
 	moves = 0;
-	if (stacks->b[i].required_moves.rotate_b >= stacks->b[i].required_moves.rotate_a)
+	if (stacks->b[i].required_moves.rb >= stacks->b[i].required_moves.ra)
 	{
-		moves = stacks->b[i].required_moves.rotate_b;
+		moves = stacks->b[i].required_moves.rb;
 	}
 	else 
-		moves = stacks->b[i].required_moves.rotate_a;
+		moves = stacks->b[i].required_moves.ra;
 	return (moves);
 }
 
 void	rotate_without_combination(t_stacks *stacks, int i)
 {
-	if (stacks->b[i].required_moves.reverse_rotate_a < stacks->b[i].required_moves.rotate_a)
-		stacks->b[i].required_moves.rotate_a = 0;
+	if (stacks->b[i].required_moves.rra < stacks->b[i].required_moves.ra)
+		stacks->b[i].required_moves.ra = 0;
 	else
-		stacks->b[i].required_moves.reverse_rotate_a = 0;
-	if (stacks->b[i].required_moves.reverse_rotate_b < stacks->b[i].required_moves.rotate_b)
-		stacks->b[i].required_moves.rotate_b = 0;
+		stacks->b[i].required_moves.rra = 0;
+	if (stacks->b[i].required_moves.rrb < stacks->b[i].required_moves.rb)
+		stacks->b[i].required_moves.rb = 0;
 	else
-		stacks->b[i].required_moves.reverse_rotate_b = 0;
+		stacks->b[i].required_moves.rrb = 0;
 }
 
 void	use_reverse_rotate(t_stacks *stacks, int i)
 {	
-	stacks->b[i].required_moves.rotate_b = 0;
-	stacks->b[i].required_moves.rotate_a = 0;
-	if (stacks->b[i].required_moves.reverse_rotate_b >= stacks->b[i].required_moves.reverse_rotate_a)
+	stacks->b[i].required_moves.rb = 0;
+	stacks->b[i].required_moves.ra = 0;
+	if (stacks->b[i].required_moves.rrb >= stacks->b[i].required_moves.rra)
 	{
-		stacks->b[i].required_moves.reverse_rotate_b = stacks->b[i].required_moves.reverse_rotate_b - stacks->b[i].required_moves.reverse_rotate_a;
-		stacks->b[i].required_moves.reverse_rotate_both = stacks->b[i].required_moves.reverse_rotate_a;
-		stacks->b[i].required_moves.reverse_rotate_a = 0;
+		stacks->b[i].required_moves.rrb = stacks->b[i].required_moves.rrb - stacks->b[i].required_moves.rra;
+		stacks->b[i].required_moves.rrr = stacks->b[i].required_moves.rra;
+		stacks->b[i].required_moves.rra = 0;
 	}
 	else
 	{
-		stacks->b[i].required_moves.reverse_rotate_a = stacks->b[i].required_moves.reverse_rotate_a - stacks->b[i].required_moves.reverse_rotate_b;
-		stacks->b[i].required_moves.reverse_rotate_both = stacks->b[i].required_moves.reverse_rotate_b;
-		stacks->b[i].required_moves.reverse_rotate_b = 0;
+		stacks->b[i].required_moves.rra = stacks->b[i].required_moves.rra - stacks->b[i].required_moves.rrb;
+		stacks->b[i].required_moves.rrr = stacks->b[i].required_moves.rrb;
+		stacks->b[i].required_moves.rrb = 0;
 	}
 }
 
 void	use_rotate(t_stacks *stacks, int i)
 {
-	stacks->b[i].required_moves.reverse_rotate_b = 0;
-	stacks->b[i].required_moves.reverse_rotate_a = 0;
-	if (stacks->b[i].required_moves.rotate_b >= stacks->b[i].required_moves.rotate_a)
+	stacks->b[i].required_moves.rrb = 0;
+	stacks->b[i].required_moves.rra = 0;
+	if (stacks->b[i].required_moves.rb >= stacks->b[i].required_moves.ra)
 	{
-		stacks->b[i].required_moves.rotate_b = stacks->b[i].required_moves.rotate_b - stacks->b[i].required_moves.rotate_a;
-		stacks->b[i].required_moves.rotate_both = stacks->b[i].required_moves.rotate_a;
-		stacks->b[i].required_moves.rotate_a = 0;
+		stacks->b[i].required_moves.rb = stacks->b[i].required_moves.rb - stacks->b[i].required_moves.ra;
+		stacks->b[i].required_moves.rr = stacks->b[i].required_moves.ra;
+		stacks->b[i].required_moves.ra = 0;
 	}
 	else
 	{
-		stacks->b[i].required_moves.rotate_a = stacks->b[i].required_moves.rotate_a - stacks->b[i].required_moves.rotate_b;
-		stacks->b[i].required_moves.rotate_both = stacks->b[i].required_moves.rotate_b;
-		stacks->b[i].required_moves.rotate_b = 0;
+		stacks->b[i].required_moves.ra = stacks->b[i].required_moves.ra - stacks->b[i].required_moves.rb;
+		stacks->b[i].required_moves.rr = stacks->b[i].required_moves.rb;
+		stacks->b[i].required_moves.rb = 0;
 	}
 }
 
@@ -279,27 +266,27 @@ void	compute_moves_needed_for_stack_a(t_stacks *stacks, int i)
 		absolute_index_in_a = stacks->b[i].index + stacks->zero_index - stacks->a_len;
 	else
 		absolute_index_in_a = stacks->b[i].index + stacks->zero_index;
-	stacks->b[i].required_moves.rotate_a = absolute_index_in_a;
-	stacks->b[i].required_moves.reverse_rotate_a = (stacks->a_len - absolute_index_in_a);
+	stacks->b[i].required_moves.ra = absolute_index_in_a;
+	stacks->b[i].required_moves.rra = (stacks->a_len - absolute_index_in_a);
 }
 
 // the i here is absolute index in B
 void	compute_moves_needed_for_stack_b(t_stacks *stacks, int i)
 {
-	stacks->b[i].required_moves.rotate_b = i;
-	stacks->b[i].required_moves.reverse_rotate_b = stacks->b_len - i;
+	stacks->b[i].required_moves.rb = i;
+	stacks->b[i].required_moves.rrb = stacks->b_len - i;
 }
 
-void	reset_move_counts(t_stacks *stacks, int i)
+void	reset_move_count(t_stacks *stacks, int i)
 {
 	stacks->b[i].required_moves.push_a = 0;
 	stacks->b[i].required_moves.push_b = 0;
-	stacks->b[i].required_moves.reverse_rotate_a = 0;
-	stacks->b[i].required_moves.reverse_rotate_b = 0;
-	stacks->b[i].required_moves.reverse_rotate_both = 0;
-	stacks->b[i].required_moves.rotate_a = 0;
-	stacks->b[i].required_moves.rotate_b = 0;
-	stacks->b[i].required_moves.rotate_both = 0;
+	stacks->b[i].required_moves.rra = 0;
+	stacks->b[i].required_moves.rrb = 0;
+	stacks->b[i].required_moves.rrr = 0;
+	stacks->b[i].required_moves.ra = 0;
+	stacks->b[i].required_moves.rb = 0;
+	stacks->b[i].required_moves.rr = 0;
 	stacks->b[i].required_moves.swap_a = 0;
 	stacks->b[i].required_moves.swap_b = 0;
 	stacks->b[i].required_moves.swap_both = 0;

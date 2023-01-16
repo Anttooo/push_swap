@@ -20,6 +20,5 @@ void	rotate_b(t_stacks *stacks)
 	}
 	if (stacks->printing_enabled == 1)
 		ft_printf("rb\n");
-	
-	stacks->move_counter.rotate_b++;
+	stacks->move_counter.rb++;
 }

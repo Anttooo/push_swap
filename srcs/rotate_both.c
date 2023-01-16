@@ -18,7 +18,7 @@ void	rotate_both(t_stacks *stacks)
 		ft_printf("rr\n");
 		stacks->printing_enabled = 1;
 	}
-	stacks->move_counter.rotate_both++;
-	stacks->move_counter.rotate_a--;
-	stacks->move_counter.rotate_b--;
+	stacks->move_counter.rr++;
+	stacks->move_counter.ra--;
+	stacks->move_counter.rb--;
 }

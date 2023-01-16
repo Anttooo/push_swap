@@ -11,12 +11,12 @@ typedef struct s_moves
 {
 	int	push_a;
 	int	push_b;
-	int	reverse_rotate_a;
-	int	reverse_rotate_b;
-	int	reverse_rotate_both;
-	int	rotate_a;
-	int	rotate_b;
-	int	rotate_both;
+	int	rra;
+	int	rrb;
+	int	rrr;
+	int	ra;
+	int	rb;
+	int	rr;
 	int	swap_a;
 	int	swap_b;
 	int	swap_both;

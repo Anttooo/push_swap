@@ -23,12 +23,12 @@ void	initialise_move_counter(t_stacks *stacks)
 {
 	stacks->move_counter.push_a = 0;
 	stacks->move_counter.push_b = 0;
-	stacks->move_counter.reverse_rotate_a = 0;
-	stacks->move_counter.reverse_rotate_b = 0;
-	stacks->move_counter.reverse_rotate_both = 0;
-	stacks->move_counter.rotate_a = 0;
-	stacks->move_counter.rotate_b = 0;
-	stacks->move_counter.rotate_both = 0;
+	stacks->move_counter.rra = 0;
+	stacks->move_counter.rrb = 0;
+	stacks->move_counter.rrr = 0;
+	stacks->move_counter.ra = 0;
+	stacks->move_counter.rb = 0;
+	stacks->move_counter.rr = 0;
 	stacks->move_counter.swap_a = 0;
 	stacks->move_counter.swap_b = 0;
 	stacks->move_counter.swap_both = 0;

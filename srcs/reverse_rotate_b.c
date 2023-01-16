@@ -20,5 +20,5 @@ void	reverse_rotate_b(t_stacks *stacks)
 	}
 	if (stacks->printing_enabled == 1)
 		ft_printf("rrb\n");
-	stacks->move_counter.reverse_rotate_b++;
+	stacks->move_counter.rrb++;
 }
