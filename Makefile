@@ -12,10 +12,12 @@ LDFLAGS = -L./libft -lft
 
 DEPS = ./libft/libft.h
 
+# TODO: Remove print_stacks.c before submitting, it's just for debugging
 SRCS = ./push_swap.c \
 		./sort_stack.c \
 		./calculate_indexes.c \
 		./data_initialisation.c \
+		./print_stacks.c \
 		./prepare_b.c \
 		./sort_b.c \
 		./sort_a.c \
