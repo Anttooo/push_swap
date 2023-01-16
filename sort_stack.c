@@ -2,7 +2,6 @@
 
 void	print_stacks(t_stacks *stacks);
 int		is_sorted(t_stacks *stacks);
-void	print_stats(t_stacks *stacks);
 void	print_result(t_stacks *stacks);
 void	sort_stack(t_stacks *stacks)
 {
@@ -35,7 +34,6 @@ void	sort_stack(t_stacks *stacks)
 	update_total_move_count(&stacks->move_counter);
 	print_stacks(stacks);
 	print_result(stacks);
-	print_stats(stacks);
 }
 
 int	is_sorted(t_stacks *stacks)
@@ -84,15 +82,6 @@ void	print_result(t_stacks *stacks)
 		ft_printf("\nSORTED in %d moves!\n", stacks->move_counter.total);
 	else
 		ft_printf("NOT SORTED in %d moves!\n", stacks->move_counter.total);
-}
-
-void	print_stats(t_stacks *stacks)
-{
-	update_total_move_count(&stacks->move_counter);
-	ft_printf("\nSTATISTICS \nRotate a: %d (%d%%)\nRotate b: %d\nRotate both: %d\n", stacks->move_counter.rotate_a, (stacks->move_counter.rotate_a * 100 / stacks->move_counter.total ), stacks->move_counter.rotate_b, stacks->move_counter.rotate_both);
-	ft_printf("Reverse rotate a:%d\nReverse rotate b: %d (%d%%)\nReverse rotate both: %d\n", stacks->move_counter.reverse_rotate_a, stacks->move_counter.reverse_rotate_b, (stacks->move_counter.reverse_rotate_b * 100 / stacks->move_counter.total), stacks->move_counter.reverse_rotate_both);
-	ft_printf("Swap a:%d\nSwap b: %d (%d%%)\nSwap both: %d\n", stacks->move_counter.swap_a, stacks->move_counter.swap_b, (stacks->move_counter.swap_b * 100 / stacks->move_counter.total), stacks->move_counter.swap_both);
-	ft_printf("Push a:%d\nPush b: %d\n\n", stacks->move_counter.push_a, stacks->move_counter.push_b);
 }
 
 void	update_total_move_count(t_moves *move_counter)

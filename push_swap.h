@@ -60,6 +60,7 @@ void	calculate_indexes_in_A(t_stacks *stacks);
 void	print_stacks(t_stacks *stacks);
 void	update_total_move_count(t_moves *move_counter);
 void	update_total_move_count_for_index(t_stacks *stacks, int i);
+void	initialise_data(t_stacks *stacks, int argc);
 
 // Push swap language instructions, not included in the final version
 void	push_to_a(t_stacks *stacks);
