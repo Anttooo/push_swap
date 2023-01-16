@@ -2,38 +2,27 @@
 
 int		is_sorted(t_stacks *stacks);
 void	print_result(t_stacks *stacks);
+void	initialise_stack_b(t_stacks *stacks);
 
 void	sort_stack(t_stacks *stacks)
 {
-	int	i;
+	initialise_stack_b(stacks);
+	prepare_b(stacks);
+	sort_a(stacks);
+	while (is_sorted(stacks) != 1)
+		sort_b(stacks);
+	update_total_move_count(&stacks->move_counter);
+	print_result(stacks);
+}
 
-	i = 0;
-	// Create stack B
-	ft_printf("stacks->org_len: %d\n", stacks->org_len);
+void	initialise_stack_b(t_stacks *stacks)
+{
 	stacks->b = (t_list_item *)malloc(stacks->org_len * sizeof(t_list_item));
 	if (stacks->b == NULL)
 	{
 		freemem(stacks);
 		exit(1);
 	}
-	// Print stacks in the beginning
-	ft_printf("Original stacks:\n");
-	print_stacks(stacks);
-	// Move all but three values to b
-	// ft_printf("NEXT: prepare_b\n");
-	prepare_b(stacks);
-	// ft_printf("NEXT: sort_a\n");
-	sort_a(stacks);
-	// ft_printf("NEXT: sort_b\n");
-	while (is_sorted(stacks) != 1 && i < 1)
-	{
-		sort_b(stacks);
-		i++;
-	}
-	ft_printf("Sorted stacks:\n");
-	update_total_move_count(&stacks->move_counter);
-	// print_stacks(stacks);
-	print_result(stacks);
 }
 
 int	is_sorted(t_stacks *stacks)
