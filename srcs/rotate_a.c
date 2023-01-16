@@ -18,6 +18,7 @@ void	rotate_a(t_stacks *stacks)
 		}
 		stacks->a[stacks->a_len - 1].value = temp_holder;
 	}
-	stacks->move_count++;
-	stacks->moves.rotate_a++;
+	if (stacks->printing_enabled == 1)
+		ft_printf("ra\n");
+	stacks->move_counter.rotate_a++;
 }

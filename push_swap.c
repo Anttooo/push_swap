@@ -13,18 +13,22 @@ int	main(int argc, char **argv)
 	stacks.org_len = argc - 1;
 	stacks.lower_limit = INT32_MAX;
 	stacks.upper_limit = INT32_MIN;
-	stacks.splits = 4;
-	stacks.moves.push_a = 0;
-	stacks.moves.push_b = 0;
-	stacks.moves.reverse_rotate_a = 0;
-	stacks.moves.reverse_rotate_b = 0;
-	stacks.moves.reverse_rotate_both = 0;
-	stacks.moves.rotate_a = 0;
-	stacks.moves.rotate_b = 0;
-	stacks.moves.rotate_both = 0;
-	stacks.moves.swap_a = 0;
-	stacks.moves.swap_b = 0;
-	stacks.moves.swap_both = 0;
+	stacks.nr_of_splits = 2;
+	stacks.split = 0;
+	stacks.median = 0;
+	stacks.zero_index = 0;
+	stacks.move_counter.push_a = 0;
+	stacks.move_counter.push_b = 0;
+	stacks.move_counter.reverse_rotate_a = 0;
+	stacks.move_counter.reverse_rotate_b = 0;
+	stacks.move_counter.reverse_rotate_both = 0;
+	stacks.move_counter.rotate_a = 0;
+	stacks.move_counter.rotate_b = 0;
+	stacks.move_counter.rotate_both = 0;
+	stacks.move_counter.swap_a = 0;
+	stacks.move_counter.swap_b = 0;
+	stacks.move_counter.swap_both = 0;
+	stacks.printing_enabled = 0;
 	ft_printf("argc: %d \n", argc); // ONLY FOR DEBUG PURPOSES - REMOVE BEFORE EVAL
 	read_stack(argc, argv, &stacks);
 	// TODO: add sort check before sorting

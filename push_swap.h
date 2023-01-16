@@ -7,13 +7,6 @@
 # include <stdio.h>
 # include "libft/libft.h"
 
-typedef struct s_list_item
-{
-	int	value;
-	int	index;
-	int	distance;
-}		t_list_item;
-
 typedef struct s_moves
 {
 	int	push_a;
@@ -27,31 +20,46 @@ typedef struct s_moves
 	int	swap_a;
 	int	swap_b;
 	int	swap_both;
+	int	total;
 }		t_moves;
+
+typedef struct s_list_item
+{
+	int		value;
+	int		index;
+	t_moves	required_moves;
+}		t_list_item;
 
 typedef struct s_stacks 
 {
 	t_list_item	*a;
 	t_list_item	*b;
-	t_moves		moves;
-	int			len;
+	t_moves		move_counter;
 	int			b_len;
 	int			a_len;
 	int			org_len;
-	int			move_count;
 	int			max;
 	int			min;
-	int			decile;
+	int			split;
+	int			nr_of_splits;
 	int			upper_limit;
 	int			lower_limit;
-	int			splits;
+	int			zero_index;
+	int			median;
+	int			printing_enabled;
+	int			index_with_least_moves_required;
 }		t_stacks;
 
 // add function definitions here
 void	sort_stack(t_stacks *stacks);
 void	freemem(t_stacks *stacks);
-void	sort_v1(t_stacks *stacks);
+void	prepare_b(t_stacks *stacks);
 void	sort_b(t_stacks *stacks);
+void	sort_a(t_stacks *stacks);
+void	calculate_indexes_in_A(t_stacks *stacks);
+void	print_stacks(t_stacks *stacks);
+void	update_total_move_count(t_moves *move_counter);
+void	update_total_move_count_for_index(t_stacks *stacks, int i);
 
 // Push swap language instructions, not included in the final version
 void	push_to_a(t_stacks *stacks);
