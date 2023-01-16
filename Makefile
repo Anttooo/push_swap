@@ -19,7 +19,7 @@ SRCS = ./push_swap.c \
 		./data_initialisation.c \
 		./print_debug_info.c \
 		./prepare_b.c \
-		./sort_b.c \
+		./push_next_with_least_moves.c \
 		./sort_a.c \
 		./srcs/push_a.c \
 		./srcs/push_b.c \

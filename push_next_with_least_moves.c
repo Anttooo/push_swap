@@ -1,12 +1,12 @@
 #include "push_swap.h"
 
 void	a_index_for_b_values(t_stacks *stacks);
-void	calculate_required_moves(t_stacks *stacks);
-void	moves_to_rotate_a_to_correct_place(t_stacks *stacks, int i);
-void	moves_to_rotate_b_to_correct_place(t_stacks *stacks, int i);
+void	compute_optimal_move(t_stacks *stacks);
+void	compute_moves_needed_for_stack_a(t_stacks *stacks, int i);
+void	compute_moves_needed_for_stack_b(t_stacks *stacks, int i);
 void	reset_move_counts(t_stacks *stacks, int i);
-void	get_optimal_rotations(t_stacks *stacks, int i);
-void	handle_one_with_least_moves(t_stacks *stacks);
+void	compute_optimal_rotations(t_stacks *stacks, int i);
+void	execute_optimal_move(t_stacks *stacks);
 int		get_moves_with_rotate(t_stacks *stacks, int i);
 int		get_moves_with_reverse_rotate(t_stacks *stacks, int i);
 int		get_moves_without_combination(t_stacks *stacks, int i);
@@ -14,20 +14,13 @@ void	use_rotate(t_stacks *stacks, int i);
 void	use_reverse_rotate(t_stacks *stacks, int i);
 void	rotate_without_combination(t_stacks *stacks, int i);
 
-void	push_next_with_least_moves(t_stacks *stacks)
+void	push_next_with_least_moves(t_stacks *stacks) // TODO: rename (or restructure) this as the function handles multiple things at them moment and that's not reflected in the name
 {
-	// int	i;
-
-	// i = 0;
-	// ft_printf("required_moves sum: %d\n", required_moves_sum);
 	while (stacks->b_len > 0)
 	{
-		// print_stacks(stacks);
 		a_index_for_b_values(stacks);
-		calculate_required_moves(stacks);
-		handle_one_with_least_moves(stacks);
-		// i++;
-		// do_next_move(stacks);	
+		compute_optimal_move(stacks);
+		execute_optimal_move(stacks);
 	}
 	if (stacks->b_len == 0)
 	{
@@ -98,7 +91,7 @@ void	a_index_for_b_values(t_stacks *stacks)
 	}
 }
 
-void	calculate_required_moves(t_stacks *stacks)
+void	compute_optimal_move(t_stacks *stacks)
 {
 	int	i;
 
@@ -107,15 +100,11 @@ void	calculate_required_moves(t_stacks *stacks)
 	while (i < stacks->b_len)
 	{
 		reset_move_counts(stacks, i);
-		moves_to_rotate_b_to_correct_place(stacks, i);
-		moves_to_rotate_a_to_correct_place(stacks, i);
-		get_optimal_rotations(stacks, i);
+		compute_moves_needed_for_stack_b(stacks, i);
+		compute_moves_needed_for_stack_a(stacks, i);
+		compute_optimal_rotations(stacks, i);
 		stacks->b[i].required_moves.push_a = 1;
-		update_total_move_count_for_index(stacks, i);
-		// TODO: add the system described below which checks if the instructions can be combined
-		// ft_printf("To get %d to its place in A, %d moves would be required. ",stacks->b[i].value, stacks->b[i].required_moves.total);
-		// ft_printf("(rotate a %d, reverse rotate a: %d, rotate b: %d, reverse rotate b: %d ", stacks->b[i].required_moves.rotate_a, stacks->b[i].required_moves.reverse_rotate_a, stacks->b[i].required_moves.rotate_b, stacks->b[i].required_moves.reverse_rotate_b);
-		// ft_printf("rotate both %d, reverse rotate both: %d)\n", stacks->b[i].required_moves.rotate_both, stacks->b[i].required_moves.reverse_rotate_both);
+		update_total_move_count_for_index(stacks, i); // TODO: rename
 		if (stacks->b[i].required_moves.total < stacks->b[stacks->index_with_least_moves_required].required_moves.total)
 			stacks->index_with_least_moves_required = i;
 		i++;
@@ -123,13 +112,9 @@ void	calculate_required_moves(t_stacks *stacks)
 	// ft_printf("Index which requires least moves: %d\n", stacks->index_with_least_moves_required);
 }
 
-void	handle_one_with_least_moves(t_stacks *stacks)
+void	execute_optimal_move(t_stacks *stacks)
 {
-	// the index which requires least moves is stored in stacks->index_with_least_moves_required
-	// ft_printf("selected index: %d\n", stacks->index_with_least_moves_required);
-	// print_stacks(stacks);
-
-	// Rotate A - TODO: add direction logic
+	// TODO: restrucure by using function pointers and a single generic function for doing all of these
 	while (stacks->b[stacks->index_with_least_moves_required].required_moves.rotate_a > 0)
 	{
 		rotate_a(stacks);
@@ -140,7 +125,6 @@ void	handle_one_with_least_moves(t_stacks *stacks)
 		reverse_rotate_a(stacks);
 		stacks->b[stacks->index_with_least_moves_required].required_moves.reverse_rotate_a--;
 	}
-	// Rotate B - TODO: add direction logic
 	while (stacks->b[stacks->index_with_least_moves_required].required_moves.rotate_b > 0)
 	{
 		rotate_b(stacks);
@@ -165,16 +149,7 @@ void	handle_one_with_least_moves(t_stacks *stacks)
 	push_to_a(stacks);
 }
 
-/* combining instructions
-To figure out smallest amount of instructions for getting A and B to right position
-- calculate sum of moves if picking smaller out of reverse and regular for both
-- calculate sum of moves if selecting rotate for both but doing the overlapping amount of moves for both at the same time
-	- The function would be: number of rotate both = smaller out of (rotations_A and rotations_B) + larger out of (rotations_A and rotations_B) - smaller out of those
-- calculate sum of moves if selecting reverse rotate for both but doing the overlapping amount of moves for both at the same time
-	- same function as above
-*/
-
-void	get_optimal_rotations(t_stacks *stacks, int i)
+void	compute_optimal_rotations(t_stacks *stacks, int i)
 {
 	int	without_combination;
 	int	reverse_rotate;
@@ -286,7 +261,7 @@ void	use_rotate(t_stacks *stacks, int i)
 
 // To rotate a to correct place, the number at index 0 has to be the next one from the one being pushed, so larger.
 // The correct relative index to have as [0] is the index of the number being pushed.
-void	moves_to_rotate_a_to_correct_place(t_stacks *stacks, int i)
+void	compute_moves_needed_for_stack_a(t_stacks *stacks, int i)
 {
 	int	absolute_index_in_a;
 
@@ -299,7 +274,7 @@ void	moves_to_rotate_a_to_correct_place(t_stacks *stacks, int i)
 }
 
 // the i here is absolute index in B
-void	moves_to_rotate_b_to_correct_place(t_stacks *stacks, int i)
+void	compute_moves_needed_for_stack_b(t_stacks *stacks, int i)
 {
 	stacks->b[i].required_moves.rotate_b = i;
 	stacks->b[i].required_moves.reverse_rotate_b = stacks->b_len - i;
@@ -319,35 +294,4 @@ void	reset_move_counts(t_stacks *stacks, int i)
 	stacks->b[i].required_moves.swap_b = 0;
 	stacks->b[i].required_moves.swap_both = 0;
 	stacks->b[i].required_moves.total = 0;
-}
-
-
-char	*check_shorter_rotation_direction(t_stacks *stacks)
-{
-	char	*direction;
-
-	if (stacks->zero_index < stacks->b_len - stacks->zero_index)
-		direction = "reverse";
-	else
-		direction = "regular";
-	return (direction);
-}
-
-void	do_next_move(t_stacks *stacks)
-{
-	char	*rotation_direction;
-	
-	rotation_direction = check_shorter_rotation_direction(stacks);
-	if (stacks->b[0].index == 0)
-	{
-		push_to_a(stacks);
-	}
-	if (ft_strncmp("regular", rotation_direction, 15))
-	{
-		rotate_b(stacks);
-	}
-	else
-	{
-		reverse_rotate_b(stacks);
-	}
 }
