@@ -1,24 +1,24 @@
 #include "../push_swap.h"
 
-void	reverse_rotate_both(t_stacks *stacks)
+void	reverse_rotate_both(t_data *data)
 {
 	int	print_switched;
 
-	if (stacks->printing_enabled == 1)
+	if (data->printing_enabled == 1)
 	{
 		print_switched = 1;
-		stacks->printing_enabled = 0;
+		data->printing_enabled = 0;
 	}
 	else
 		print_switched = 0;
-	reverse_rotate_a(stacks);
-	reverse_rotate_b(stacks);
+	reverse_rotate_a(data);
+	reverse_rotate_b(data);
 	if (print_switched == 1)
 	{
 		ft_printf("rrr\n");
-		stacks->printing_enabled = 1;
+		data->printing_enabled = 1;
 	}
-	stacks->move_counter.rrr++;
-	stacks->move_counter.rra--;
-	stacks->move_counter.rrb--;
+	data->move_counter.rrr++;
+	data->move_counter.rra--;
+	data->move_counter.rrb--;
 }

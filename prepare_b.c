@@ -1,69 +1,69 @@
 #include "push_swap.h"
 
-void	organise_b(t_stacks *stacks);
-void	calculate_limits(t_stacks *stacks);
-void	push_split_into_b(t_stacks *stacks);
-void	find_median(t_stacks *stacks);
-int	count_values_to_move(t_stacks *stacks);
+void	organise_b(t_data *data);
+void	calculate_limits(t_data *data);
+void	push_split_into_b(t_data *data);
+void	find_median(t_data *data);
+int	count_values_to_move(t_data *data);
 
-void	prepare_b(t_stacks *stacks)
+void	prepare_b(t_data *data)
 {
-	find_median(stacks);
+	find_median(data);
 	// push first lower 50% of values and then upper 50%
-	while (stacks->split < 2 && stacks->a_len > 3)
-		push_split_into_b(stacks);
+	while (data->split < 2 && data->a_len > 3)
+		push_split_into_b(data);
 }
 
-void	push_split_into_b(t_stacks *stacks)
+void	push_split_into_b(t_data *data)
 {
 	int	i;
 	int	values_to_push;
 	int	pushed;
 
 	i = 0;
-	calculate_limits(stacks);
-	values_to_push = count_values_to_move(stacks);
+	calculate_limits(data);
+	values_to_push = count_values_to_move(data);
 	// ft_printf("Values to push for this split: %d\n", values_to_push);
 	pushed = 0;
-	while (i <= stacks->a_len && pushed < values_to_push)
+	while (i <= data->a_len && pushed < values_to_push)
 	{
 		// If value at index 0 is between limits, push it to b. Else rotate
-		if (stacks->a[0].value == stacks->max || stacks->a[0].value == stacks->min || stacks->a[0].value == stacks->median)
+		if (data->a[0].value == data->max || data->a[0].value == data->min || data->a[0].value == data->median)
 		{
-			// ft_printf("test 1, i: %d, a_len: %d, at zero index: %d\n", i, stacks->a_len, stacks->a[0].value);
-			rotate_a(stacks);
+			// ft_printf("test 1, i: %d, a_len: %d, at zero index: %d\n", i, data->a_len, data->a[0].value);
+			rotate_a(data);
 			i++;
 		}
-		else if (stacks->a[0].value <= stacks->upper_limit && stacks->a[0].value >= stacks->lower_limit)
+		else if (data->a[0].value <= data->upper_limit && data->a[0].value >= data->lower_limit)
 		{
-			// ft_printf("test 2, i: %d, a_len: %d, at zero index: %d\n", i, stacks->a_len, stacks->a[0].value);
-			// print_stacks(stacks);
+			// ft_printf("test 2, i: %d, a_len: %d, at zero index: %d\n", i, data->a_len, data->a[0].value);
+			// print_data(data);
 			pushed++;
-			push_to_b(stacks);
+			push_to_b(data);
 		}
 		else
 		{
-			// ft_printf("test 3, i: %d, a_len: %d, at zero index: %d\n", i, stacks->a_len, stacks->a[0].value);
-			rotate_a(stacks);
+			// ft_printf("test 3, i: %d, a_len: %d, at zero index: %d\n", i, data->a_len, data->a[0].value);
+			rotate_a(data);
 			i++;
 		}
 	}
-	stacks->split++;
+	data->split++;
 }
 
-int	count_values_to_move(t_stacks *stacks)
+int	count_values_to_move(t_data *data)
 {
 	int	i;
 	int	counter;
 
 	i = 0;
 	counter = 0;
-	while (i <= stacks->a_len)
+	while (i <= data->a_len)
 	{
-		if (stacks->a[i].value == stacks->max || stacks->a[i].value == stacks->min || stacks->a[i].value == stacks->median);
-		else if (stacks->a[i].value <= stacks->upper_limit && stacks->a[i].value >= stacks->lower_limit)
+		if (data->a[i].value == data->max || data->a[i].value == data->min || data->a[i].value == data->median);
+		else if (data->a[i].value <= data->upper_limit && data->a[i].value >= data->lower_limit)
 		{
-			// ft_printf("value %d fits between the lower limit and upper limit\n", stacks->a[i].value);
+			// ft_printf("value %d fits between the lower limit and upper limit\n", data->a[i].value);
 			counter++;
 		}
 		i++;
@@ -72,36 +72,36 @@ int	count_values_to_move(t_stacks *stacks)
 }
 
 // TODO: this could probably be optimised by finding the median rather than dividing by 2
-void	calculate_limits(t_stacks *stacks)
+void	calculate_limits(t_data *data)
 {
-	if (stacks->split == 0)
+	if (data->split == 0)
 	{
-		stacks->lower_limit = stacks->min;
-		stacks->upper_limit = stacks->median;
+		data->lower_limit = data->min;
+		data->upper_limit = data->median;
 	}
 	else
 	{
-		stacks->lower_limit = stacks->median + 1;
-		stacks->upper_limit = stacks->max;
+		data->lower_limit = data->median + 1;
+		data->upper_limit = data->max;
 	}
-	// ft_printf("lower limit: %d, upper limit: %d\n", stacks->lower_limit, stacks->upper_limit);
+	// ft_printf("lower limit: %d, upper limit: %d\n", data->lower_limit, data->upper_limit);
 }
 
-void	find_median(t_stacks *stacks)
+void	find_median(t_data *data)
 {
 	int	i;
 	int	middle_value;
 
 	i = 0;
-	middle_value = stacks->a_len / 2 - 1;
+	middle_value = data->a_len / 2 - 1;
 	// ft_printf("middle value: %d\n", middle_value);
-	calculate_indexes_in_A(stacks);
-	while (i < stacks->a_len)
+	calculate_indexes_in_A(data);
+	while (i < data->a_len)
 	{
-		if (stacks->a[i].index == middle_value)
+		if (data->a[i].index == middle_value)
 		{
-			stacks->median = stacks->a[i].value;
-			// ft_printf("median value: %d\n", stacks->median);
+			data->median = data->a[i].value;
+			// ft_printf("median value: %d\n", data->median);
 			break;
 		}
 		else

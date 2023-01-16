@@ -7,15 +7,15 @@ int	is_cab(int a, int b, int c);
 int	is_bac(int a, int b, int c);
 int	is_cba(int a, int b, int c);
 
-void	sort_a(t_stacks *stacks)
+void	sort_a(t_data *data)
 {
 	int	a;
 	int	b;
 	int	c;
 	
-	a = stacks->a[0].value;
-	b = stacks->a[1].value;
-	c = stacks->a[2].value;
+	a = data->a[0].value;
+	b = data->a[1].value;
+	c = data->a[2].value;
 	
 	if (is_abc(a,b,c) == 1) // (1, 2, 3)
 	{
@@ -23,25 +23,25 @@ void	sort_a(t_stacks *stacks)
 	}
 	else if (is_acb(a,b,c) == 1) // (1, 3, 2)
 	{
-		reverse_rotate_a(stacks);
-		swap_a(stacks);
+		reverse_rotate_a(data);
+		swap_a(data);
 	}
 	else if (is_bca(a,b,c)) // (2, 3, 1)
 	{
-		reverse_rotate_a(stacks);
+		reverse_rotate_a(data);
 	}
 	else if (is_cab(a,b,c)) // (3, 1, 2)
 	{
-		rotate_a(stacks);
+		rotate_a(data);
 	}
 	else if (is_bac(a,b,c)) // (2, 1, 3)
 	{
-		swap_a(stacks);
+		swap_a(data);
 	}
 	else if (is_cba(a,b,c)) // (3, 2, 1)
 	{
-		rotate_a(stacks);
-		swap_a(stacks);
+		rotate_a(data);
+		swap_a(data);
 	}
 }
 

@@ -1,39 +1,39 @@
 #include "push_swap.h"
 
-int		is_sorted(t_stacks *stacks);
-void	initialise_stack_b(t_stacks *stacks);
+int		is_sorted(t_data *data);
+void	initialise_stack_b(t_data *data);
 
-void	sort_stack(t_stacks *stacks)
+void	sort_stack(t_data *data)
 {
-	initialise_stack_b(stacks);
-	prepare_b(stacks);
-	sort_a(stacks);
-	while (is_sorted(stacks) != 1)
-		complete_next_move(stacks);
-	update_total_move_count(&stacks->move_counter);
-	print_result(stacks); // TODO: remove this before submitting
+	initialise_stack_b(data);
+	prepare_b(data);
+	sort_a(data);
+	while (is_sorted(data) != 1)
+		complete_next_move(data);
+	update_total_move_count(&data->move_counter);
+	print_result(data); // TODO: remove this before submitting
 }
 
-void	initialise_stack_b(t_stacks *stacks)
+void	initialise_stack_b(t_data *data)
 {
-	stacks->b = (t_list_item *)malloc(stacks->org_len * sizeof(t_list_item));
-	if (stacks->b == NULL)
+	data->b = (t_list_item *)malloc(data->org_len * sizeof(t_list_item));
+	if (data->b == NULL)
 	{
-		freemem(stacks);
+		freemem(data);
 		exit(1);
 	}
 }
 
-int	is_sorted(t_stacks *stacks)
+int	is_sorted(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	if (stacks->a_len < stacks->org_len)
+	if (data->a_len < data->org_len)
 		return (0);
-	while (i < stacks->a_len - 1)
+	while (i < data->a_len - 1)
 	{
-		if (stacks->a[i].value < stacks->a[i + 1].value)
+		if (data->a[i].value < data->a[i + 1].value)
 			i++;
 		else
 			return(0);
@@ -57,19 +57,19 @@ void	update_total_move_count(t_moves *move_counter)
 	move_counter->total = move_counter->total + move_counter->swap_both;
 }
 
-void	update_total_move_count_for_index(t_stacks *stacks, int i)
+void	update_total_move_count_for_index(t_data *data, int i)
 {
-	stacks->b[i].required_moves.total = 0;
-	stacks->b[i].required_moves.total = stacks->b[i].required_moves.total + stacks->b[i].required_moves.push_a;
-	stacks->b[i].required_moves.total = stacks->b[i].required_moves.total + stacks->b[i].required_moves.push_b;
-	stacks->b[i].required_moves.total = stacks->b[i].required_moves.total + stacks->b[i].required_moves.rra;
-	stacks->b[i].required_moves.total = stacks->b[i].required_moves.total + stacks->b[i].required_moves.rrb;
-	stacks->b[i].required_moves.total = stacks->b[i].required_moves.total + stacks->b[i].required_moves.rrr;
-	stacks->b[i].required_moves.total = stacks->b[i].required_moves.total + stacks->b[i].required_moves.ra;
-	stacks->b[i].required_moves.total = stacks->b[i].required_moves.total + stacks->b[i].required_moves.rb;
-	stacks->b[i].required_moves.total = stacks->b[i].required_moves.total + stacks->b[i].required_moves.rr;
-	stacks->b[i].required_moves.total = stacks->b[i].required_moves.total + stacks->b[i].required_moves.swap_a;
-	stacks->b[i].required_moves.total = stacks->b[i].required_moves.total + stacks->b[i].required_moves.swap_b;
-	stacks->b[i].required_moves.total = stacks->b[i].required_moves.total + stacks->b[i].required_moves.swap_both;
+	data->b[i].required_moves.total = 0;
+	data->b[i].required_moves.total = data->b[i].required_moves.total + data->b[i].required_moves.push_a;
+	data->b[i].required_moves.total = data->b[i].required_moves.total + data->b[i].required_moves.push_b;
+	data->b[i].required_moves.total = data->b[i].required_moves.total + data->b[i].required_moves.rra;
+	data->b[i].required_moves.total = data->b[i].required_moves.total + data->b[i].required_moves.rrb;
+	data->b[i].required_moves.total = data->b[i].required_moves.total + data->b[i].required_moves.rrr;
+	data->b[i].required_moves.total = data->b[i].required_moves.total + data->b[i].required_moves.ra;
+	data->b[i].required_moves.total = data->b[i].required_moves.total + data->b[i].required_moves.rb;
+	data->b[i].required_moves.total = data->b[i].required_moves.total + data->b[i].required_moves.rr;
+	data->b[i].required_moves.total = data->b[i].required_moves.total + data->b[i].required_moves.swap_a;
+	data->b[i].required_moves.total = data->b[i].required_moves.total + data->b[i].required_moves.swap_b;
+	data->b[i].required_moves.total = data->b[i].required_moves.total + data->b[i].required_moves.swap_both;
 }
 

@@ -30,7 +30,7 @@ typedef struct s_list_item
 	t_moves	required_moves;
 }		t_list_item;
 
-typedef struct s_stacks 
+typedef struct s_data 
 {
 	t_list_item	*a;
 	t_list_item	*b;
@@ -47,60 +47,60 @@ typedef struct s_stacks
 	int			zero_index;
 	int			median;
 	int			printing_enabled;
-	int			index_with_least_moves_required;
-}		t_stacks;
+	int			optimal_item_to_move;
+}		t_data;
 
 // add function definitions here
-void	sort_stack(t_stacks *stacks);
-void	freemem(t_stacks *stacks);
-void	prepare_b(t_stacks *stacks);
-void	complete_next_move(t_stacks *stacks);
-void	sort_a(t_stacks *stacks);
-void	calculate_indexes_in_A(t_stacks *stacks);
-void	print_stacks(t_stacks *stacks);
+void	sort_stack(t_data *data);
+void	freemem(t_data *data);
+void	prepare_b(t_data *data);
+void	complete_next_move(t_data *data);
+void	sort_a(t_data *data);
+void	calculate_indexes_in_A(t_data *data);
+void	print_data(t_data *data);
 void	update_total_move_count(t_moves *move_counter);
-void	update_total_move_count_for_index(t_stacks *stacks, int i);
-void	initialise_data(t_stacks *stacks, int argc);
+void	update_total_move_count_for_index(t_data *data, int i);
+void	initialise_data(t_data *data, int argc);
 
 // compute indexes in A
-void	compute_indexes_in_a_for_b_values(t_stacks *stacks);
-void	update_index_of_smallest_value_in_a(t_stacks *stacks);
-void	reset_stack_b_indexes(t_stacks *stacks);
-void	compute_index_for_each(t_stacks *stacks);
+void	compute_indexes_in_a_for_b_values(t_data *data);
+void	update_index_of_smallest_value_in_a(t_data *data);
+void	reset_stack_b_indexes(t_data *data);
+void	compute_index_for_each(t_data *data);
 
 
 // compute optimal moves
-void	compute_optimal_move_for_each(t_stacks *stacks);
-void	compute_optimal_rotations(t_stacks *stacks, int i);
+void	compute_optimal_move_for_each(t_data *data);
+void	compute_optimal_rotations(t_data *data, int i);
 
 // functions for figuring out optimal rotation
-int	get_moves_with_both_directions(t_stacks *stacks, int i);
-int	get_moves_with_reverse_rotate(t_stacks *stacks, int i);
-int	get_moves_with_rotate(t_stacks *stacks, int i);
-void	use_both_directions(t_stacks *stacks, int i);
-void	use_reverse_rotate(t_stacks *stacks, int i);
-void	use_rotate(t_stacks *stacks, int i);
+int	get_moves_with_both_directions(t_data *data, int i);
+int	get_moves_with_reverse_rotate(t_data *data, int i);
+int	get_moves_with_rotate(t_data *data, int i);
+void	use_both_directions(t_data *data, int i);
+void	use_reverse_rotate(t_data *data, int i);
+void	use_rotate(t_data *data, int i);
 
 // Execute the move with least steps
-void	execute_move_with_least_steps(t_stacks *stacks);
-void	execute_instruction(t_stacks *stacks, void (*f)(t_stacks *), int moves);
+void	execute_move_with_least_steps(t_data *data);
+void	execute_instruction(t_data *data, void (*f)(t_data *), int moves);
 
 // Debug printing, remove before submitting
-void	print_stacks(t_stacks *stacks);
-void	print_result(t_stacks *stacks);
-int	is_sorted(t_stacks *stacks);
+void	print_data(t_data *data);
+void	print_result(t_data *data);
+int	is_sorted(t_data *data);
 
 // Push swap language instructions, not included in the final version
-void	push_to_a(t_stacks *stacks);
-void	push_to_b(t_stacks *stacks);
-void	swap_a(t_stacks *stacks);
-void	swap_b(t_stacks *stacks);
-void	swap_both(t_stacks *stacks);
-void	rotate_a(t_stacks *stacks);
-void	rotate_b(t_stacks *stacks);
-void	rotate_both(t_stacks *stacks);
-void	reverse_rotate_a(t_stacks *stacks);
-void	reverse_rotate_b(t_stacks *stacks);
-void	reverse_rotate_both(t_stacks *stacks);
+void	push_to_a(t_data *data);
+void	push_to_b(t_data *data);
+void	swap_a(t_data *data);
+void	swap_b(t_data *data);
+void	swap_both(t_data *data);
+void	rotate_a(t_data *data);
+void	rotate_b(t_data *data);
+void	rotate_both(t_data *data);
+void	reverse_rotate_a(t_data *data);
+void	reverse_rotate_b(t_data *data);
+void	reverse_rotate_both(t_data *data);
 
 #endif

@@ -1,57 +1,57 @@
 #include "push_swap.h"
 
-void	read_stack(int argc, char **argv, t_stacks *stacks);
-void	freemem(t_stacks *stacks);
+void	read_stack(int argc, char **argv, t_data *data);
+void	freemem(t_data *data);
 
 int	main(int argc, char **argv)
 {
-	t_stacks	stacks;
-	initialise_data(&stacks, argc);
-	read_stack(argc, argv, &stacks);
-	if (is_sorted(&stacks) != 1)
-		sort_stack(&stacks);
-	freemem(&stacks);
+	t_data	data;
+	initialise_data(&data, argc);
+	read_stack(argc, argv, &data);
+	if (is_sorted(&data) != 1)
+		sort_stack(&data);
+	freemem(&data);
 	return (0);
 }
 
-void	read_stack(int argc, char **argv, t_stacks *stacks) // TODO: restructure this function so that it's not so messy
+void	read_stack(int argc, char **argv, t_data *data) // TODO: restructure this function so that it's not so messy
 {
 	int	i;
 
 	i = 0;
-	stacks->max = INT32_MIN;
-	stacks->min = INT32_MAX;
+	data->max = INT32_MIN;
+	data->min = INT32_MAX;
 	// TODO: ADD HANDLING OF VALUES OUTSIDE OF MAX_INT AND MIN_INT
-	stacks->a = (t_list_item *)malloc(argc * sizeof(t_list_item));
-	if (stacks->a == NULL)
-		freemem(stacks);
+	data->a = (t_list_item *)malloc(argc * sizeof(t_list_item));
+	if (data->a == NULL)
+		freemem(data);
 	while (i < argc - 1)
 	{
-		stacks->a[i].value = ft_atoi(argv[i + 1]);
-		if (stacks->a[i].value == 0 && *argv[i + 1] != (char)'0') // IF THE VALUE CAN'T BE READ, ATOI RETURNS 0 SO WE NEED TO DISTINGUISH BETWEEN 0 AND '0'
+		data->a[i].value = ft_atoi(argv[i + 1]);
+		if (data->a[i].value == 0 && *argv[i + 1] != (char)'0') // IF THE VALUE CAN'T BE READ, ATOI RETURNS 0 SO WE NEED TO DISTINGUISH BETWEEN 0 AND '0'
 		{
 			ft_printf("Error\n");
-			freemem(stacks);
+			freemem(data);
 			exit(1);
 		}
-		if (stacks->a[i].value > stacks->max)
-			stacks->max = stacks->a[i].value;
-		if (stacks->a[i].value < stacks->min)
-			stacks->min = stacks->a[i].value;
+		if (data->a[i].value > data->max)
+			data->max = data->a[i].value;
+		if (data->a[i].value < data->min)
+			data->min = data->a[i].value;
 		i++;
 	}
 }
 
-void	freemem(t_stacks *stacks)
+void	freemem(t_data *data)
 {
-	if (stacks->a != NULL)
+	if (data->a != NULL)
 	{
-		free(stacks->a);
-		stacks->a = NULL;
+		free(data->a);
+		data->a = NULL;
 	}
-	if (stacks->b != NULL)
+	if (data->b != NULL)
 	{
-		free(stacks->b);
-		stacks->b = NULL;
+		free(data->b);
+		data->b = NULL;
 	}
 }
