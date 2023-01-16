@@ -101,10 +101,8 @@ void	a_index_for_b_values(t_stacks *stacks)
 void	calculate_required_moves(t_stacks *stacks)
 {
 	int	i;
-	int	push;
 
 	i = 0;
-	push = 1;
 	stacks->index_with_least_moves_required = 0;
 	while (i < stacks->b_len)
 	{

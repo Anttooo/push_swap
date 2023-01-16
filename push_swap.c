@@ -14,6 +14,7 @@ int	main(int argc, char **argv)
 	stacks.lower_limit = INT32_MAX;
 	stacks.upper_limit = INT32_MIN;
 	stacks.nr_of_splits = 2;
+	stacks.split = 0;
 	stacks.median = 0;
 	stacks.zero_index = 0;
 	stacks.move_counter.push_a = 0;

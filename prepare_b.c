@@ -74,8 +74,6 @@ int	count_values_to_move(t_stacks *stacks)
 // TODO: this could probably be optimised by finding the median rather than dividing by 2
 void	calculate_limits(t_stacks *stacks)
 {
-	int	total_range;
-	total_range = stacks->max - stacks->min;
 	if (stacks->split == 0)
 	{
 		stacks->lower_limit = stacks->min;
