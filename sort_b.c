@@ -14,7 +14,7 @@ void	use_rotate(t_stacks *stacks, int i);
 void	use_reverse_rotate(t_stacks *stacks, int i);
 void	rotate_without_combination(t_stacks *stacks, int i);
 
-void	sort_b(t_stacks *stacks)
+void	push_next_with_least_moves(t_stacks *stacks)
 {
 	// int	i;
 

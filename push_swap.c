@@ -8,13 +8,13 @@ int	main(int argc, char **argv)
 	t_stacks	stacks;
 	initialise_data(&stacks, argc);
 	read_stack(argc, argv, &stacks);
-	// TODO: add sort check here before sorting to avoid sorting when the stack is already sorted
-	sort_stack(&stacks);
+	if (is_sorted(&stacks) != 1)
+		sort_stack(&stacks);
 	freemem(&stacks);
 	return (0);
 }
 
-void	read_stack(int argc, char **argv, t_stacks *stacks)
+void	read_stack(int argc, char **argv, t_stacks *stacks) // TODO: restructure this function so that it's not so messy
 {
 	int	i;
 

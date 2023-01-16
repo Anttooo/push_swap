@@ -21,3 +21,12 @@ void	print_stacks(t_stacks *stacks)
 	}
 	ft_printf("\n");
 }
+
+void	print_result(t_stacks *stacks)
+{
+	update_total_move_count(&stacks->move_counter);
+	if (is_sorted(stacks) == 1 && stacks->a_len == stacks->org_len)
+		ft_printf("\nSORTED in %d moves!\n", stacks->move_counter.total);
+	else
+		ft_printf("NOT SORTED in %d moves!\n", stacks->move_counter.total);
+}

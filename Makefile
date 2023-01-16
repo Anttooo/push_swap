@@ -17,7 +17,7 @@ SRCS = ./push_swap.c \
 		./sort_stack.c \
 		./calculate_indexes.c \
 		./data_initialisation.c \
-		./print_stacks.c \
+		./print_debug_info.c \
 		./prepare_b.c \
 		./sort_b.c \
 		./sort_a.c \

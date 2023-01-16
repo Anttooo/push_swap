@@ -1,7 +1,6 @@
 #include "push_swap.h"
 
 int		is_sorted(t_stacks *stacks);
-void	print_result(t_stacks *stacks);
 void	initialise_stack_b(t_stacks *stacks);
 
 void	sort_stack(t_stacks *stacks)
@@ -10,9 +9,9 @@ void	sort_stack(t_stacks *stacks)
 	prepare_b(stacks);
 	sort_a(stacks);
 	while (is_sorted(stacks) != 1)
-		sort_b(stacks);
+		push_next_with_least_moves(stacks);
 	update_total_move_count(&stacks->move_counter);
-	print_result(stacks);
+	print_result(stacks); // TODO: remove this before submitting
 }
 
 void	initialise_stack_b(t_stacks *stacks)
@@ -40,15 +39,6 @@ int	is_sorted(t_stacks *stacks)
 			return(0);
 	}
 	return (1);
-}
-
-void	print_result(t_stacks *stacks)
-{
-	update_total_move_count(&stacks->move_counter);
-	if (is_sorted(stacks) == 1 && stacks->a_len == stacks->org_len)
-		ft_printf("\nSORTED in %d moves!\n", stacks->move_counter.total);
-	else
-		ft_printf("NOT SORTED in %d moves!\n", stacks->move_counter.total);
 }
 
 void	update_total_move_count(t_moves *move_counter)

@@ -54,14 +54,18 @@ typedef struct s_stacks
 void	sort_stack(t_stacks *stacks);
 void	freemem(t_stacks *stacks);
 void	prepare_b(t_stacks *stacks);
-void	sort_b(t_stacks *stacks);
+void	push_next_with_least_moves(t_stacks *stacks);
 void	sort_a(t_stacks *stacks);
 void	calculate_indexes_in_A(t_stacks *stacks);
 void	print_stacks(t_stacks *stacks);
 void	update_total_move_count(t_moves *move_counter);
 void	update_total_move_count_for_index(t_stacks *stacks, int i);
 void	initialise_data(t_stacks *stacks, int argc);
+
+// Debug printing, remove before submitting
 void	print_stacks(t_stacks *stacks);
+void	print_result(t_stacks *stacks);
+int	is_sorted(t_stacks *stacks);
 
 // Push swap language instructions, not included in the final version
 void	push_to_a(t_stacks *stacks);
