@@ -15,6 +15,7 @@
 int		is_sorted(t_data *data);
 void	initialise_stack_b(t_data *data);
 
+// Main sorting function that controls the flow of sorting
 void	sort_stack(t_data *data)
 {
 	initialise_stack_b(data);
@@ -22,10 +23,9 @@ void	sort_stack(t_data *data)
 	sort_a(data);
 	while (is_sorted(data) != 1)
 		complete_next_move(data);
-	update_total_move_count(&data->move_counter);
-	print_result(data); // TODO: remove this before submitting
 }
 
+// Allocates memory for stack 'b' and exits the program if allocation fails
 void	initialise_stack_b(t_data *data)
 {
 	data->b = (t_list_item *)malloc(data->org_len * sizeof(t_list_item));
@@ -36,6 +36,7 @@ void	initialise_stack_b(t_data *data)
 	}
 }
 
+// checks if stack 'a' is sorted
 int	is_sorted(t_data *data)
 {
 	int	i;
@@ -53,25 +54,7 @@ int	is_sorted(t_data *data)
 	return (1);
 }
 
-void	update_total_move_count(t_moves *move_counter)
-{
-	int	*total;
-
-	total = &move_counter->total;
-	*total = 0;
-	*total = *total + move_counter->push_a;
-	*total = *total + move_counter->push_b;
-	*total = *total + move_counter->rra;
-	*total = *total + move_counter->rrb;
-	*total = *total + move_counter->rrr;
-	*total = *total + move_counter->ra;
-	*total = *total + move_counter->rb;
-	*total = *total + move_counter->rr;
-	*total = *total + move_counter->swap_a;
-	*total = *total + move_counter->swap_b;
-	*total = *total + move_counter->swap_both;
-}
-
+// updates the total count of moves for a specific index in stack 'b'
 void	update_total_move_count_for_index(t_data *data, int i)
 {
 	int	*total;

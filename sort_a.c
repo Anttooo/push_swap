@@ -12,6 +12,7 @@
 
 #include "push_swap.h"
 
+// Sorts the first three elements of stack 'a'
 void	sort_a(t_data *data)
 {
 	int	a;

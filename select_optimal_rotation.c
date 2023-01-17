@@ -12,6 +12,10 @@
 
 #include "push_swap.h"
 
+/* 
+function that decides which direction to use for rotate when both 
+rotate to different directions. Selects the shorter for both.
+*/
 void	use_both_directions(t_data *data, int i)
 {
 	if (data->b[i].required_moves.rra < data->b[i].required_moves.ra)
@@ -24,6 +28,10 @@ void	use_both_directions(t_data *data, int i)
 		data->b[i].required_moves.rrb = 0;
 }
 
+/* 
+changes the values of required moves so that both stacks are sorted with
+reverse rotate, using reverse_rotate_both when possible.
+*/
 void	use_reverse_rotate(t_data *data, int i)
 {	
 	data->b[i].required_moves.rb = 0;
@@ -44,6 +52,10 @@ void	use_reverse_rotate(t_data *data, int i)
 	}
 }
 
+/* 
+changes the values of required moves so that both stacks are sorted with
+rotate, using rotate_both when possible.
+*/
 void	use_rotate(t_data *data, int i)
 {
 	data->b[i].required_moves.rrb = 0;

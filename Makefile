@@ -22,6 +22,7 @@ SRCS = ./push_swap.c \
 		./prepare_b.c \
 		./prepare_b_helpers.c \
 		./complete_next_move.c \
+		./input_validity_check.c \
 		./sort_a.c \
 		./sort_a_helpers.c \
 		./srcs/push_a.c \

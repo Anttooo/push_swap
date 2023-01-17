@@ -12,6 +12,10 @@
 
 #include "push_swap.h"
 
+/* 
+Finds the median value in the array 'a' and 
+assigns it to 'median' in the t_data struct 
+*/
 void	find_median(t_data *data)
 {
 	int	i;

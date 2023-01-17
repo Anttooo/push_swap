@@ -15,47 +15,23 @@
 void	read_stack(int argc, char **argv, t_data *data);
 void	freemem(t_data *data);
 
+// The driver function which controls the overal flow of the program.
 int	main(int argc, char **argv)
 {
 	t_data	data;
 
-	initialise_data(&data, argc);
-	read_stack(argc, argv, &data);
-	if (is_sorted(&data) != 1)
-		sort_stack(&data);
-	freemem(&data);
+	if (argc > 1)
+	{
+		initialise_data(&data, argc);
+		read_stack(argc, argv, &data);
+		if (is_sorted(&data) != 1)
+			sort_stack(&data);
+		freemem(&data);
+	}
 	return (0);
 }
 
-void	check_input_validity(char **argv, t_data *data, int *i)
-{
-	int	invalid_input;
-	int	e;
-
-	e = 0;
-	invalid_input = 0;
-	if (data->a[*i].value == 0 && *argv[*i + 1] != (char) '0')
-		invalid_input = 1;
-	if (data->a[*i].value == -1 && ft_strncmp(argv[*i + 1], "-1", 2) != 0)
-		invalid_input = 1;
-	while (e < *i)
-	{
-		if (data->a[*i].value == data->a[e].value)
-		{
-			invalid_input = 1;
-			e++;
-		}
-		else
-			e++;
-	}
-	if (invalid_input == 1)
-	{
-		ft_printf("Error\n");
-		freemem(data);
-		exit(1);
-	}
-}
-
+// Reads the input and checks its validity, assigns max and min values
 void	read_stack(int argc, char **argv, t_data *data)
 {
 	int	i;
@@ -78,6 +54,7 @@ void	read_stack(int argc, char **argv, t_data *data)
 	}
 }
 
+// Frees the allocated memory
 void	freemem(t_data *data)
 {
 	if (data->a != NULL)
