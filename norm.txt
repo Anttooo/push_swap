@@ -1,0 +1,5 @@
+push_swap.c: Error!
+Error: WRONG_SCOPE_COMMENT  (line:  66, col:   5):	Comment is invalid in this scope
+sort_stack.c: Error!
+Error: WRONG_SCOPE_COMMENT  (line:  26, col:  25):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  26, col:  25):	Comment is invalid in this scope

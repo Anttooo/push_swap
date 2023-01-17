@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sort_stack.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oanttoor <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/17 10:22:39 by oanttoor          #+#    #+#             */
+/*   Updated: 2023/01/17 10:22:41 by oanttoor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 int		is_sorted(t_data *data);
@@ -11,7 +23,7 @@ void	sort_stack(t_data *data)
 	while (is_sorted(data) != 1)
 		complete_next_move(data);
 	update_total_move_count(&data->move_counter);
-	// print_result(data); // TODO: remove this before submitting
+	print_result(data); // TODO: remove this before submitting
 }
 
 void	initialise_stack_b(t_data *data)
@@ -36,7 +48,7 @@ int	is_sorted(t_data *data)
 		if (data->a[i].value < data->a[i + 1].value)
 			i++;
 		else
-			return(0);
+			return (0);
 	}
 	return (1);
 }
@@ -44,7 +56,7 @@ int	is_sorted(t_data *data)
 void	update_total_move_count(t_moves *move_counter)
 {
 	int	*total;
-	
+
 	total = &move_counter->total;
 	*total = 0;
 	*total = *total + move_counter->push_a;
@@ -63,7 +75,7 @@ void	update_total_move_count(t_moves *move_counter)
 void	update_total_move_count_for_index(t_data *data, int i)
 {
 	int	*total;
-	
+
 	total = &data->b[i].required_moves.total;
 	*total = 0;
 	*total = *total + data->b[i].required_moves.push_a;
@@ -78,4 +90,3 @@ void	update_total_move_count_for_index(t_data *data, int i)
 	*total = *total + data->b[i].required_moves.swap_b;
 	*total = *total + data->b[i].required_moves.swap_both;
 }
-

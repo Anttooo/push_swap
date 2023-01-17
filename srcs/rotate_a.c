@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rotate_a.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oanttoor <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/17 11:14:44 by oanttoor          #+#    #+#             */
+/*   Updated: 2023/01/17 11:14:45 by oanttoor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../push_swap.h"
 
-// Shift up all elements of stack a by 1. The first element becomes the last one.
-
+// Shift up all elements of stack a by 1. 
+// The first element becomes the last one.
 void	rotate_a(t_data *data)
 {
 	int	temp_holder;

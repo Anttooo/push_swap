@@ -16,11 +16,14 @@ DEPS = ./libft/libft.h
 SRCS = ./push_swap.c \
 		./sort_stack.c \
 		./calculate_indexes.c \
+		./calculate_indexes_helpers.c \
 		./data_initialisation.c \
 		./print_debug_info.c \
 		./prepare_b.c \
+		./prepare_b_helpers.c \
 		./complete_next_move.c \
 		./sort_a.c \
+		./sort_a_helpers.c \
 		./srcs/push_a.c \
 		./srcs/push_b.c \
 		./srcs/swap_a.c \

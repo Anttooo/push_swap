@@ -1,16 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   prepare_b.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oanttoor <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/17 10:20:35 by oanttoor          #+#    #+#             */
+/*   Updated: 2023/01/17 10:20:36 by oanttoor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-void	organise_b(t_data *data);
 void	calculate_limits(t_data *data);
 void	push_split_into_b(t_data *data);
-void	find_median(t_data *data);
-int	count_values_to_move(t_data *data);
+int		count_values_to_move(t_data *data);
+void	keep_min_max_median_push_rest(t_data *data, int *i, int *pushed);
 
 void	prepare_b(t_data *data)
 {
 	find_median(data);
 	while (data->split < 2 && data->a_len > 3)
+	{
+		calculate_limits(data);
 		push_split_into_b(data);
+		data->split++;
+	}
 }
 
 void	push_split_into_b(t_data *data)
@@ -20,28 +35,31 @@ void	push_split_into_b(t_data *data)
 	int	pushed;
 
 	i = 0;
-	calculate_limits(data);
 	values_to_push = count_values_to_move(data);
 	pushed = 0;
 	while (i <= data->a_len && pushed < values_to_push)
+		keep_min_max_median_push_rest(data, &i, &pushed);
+}
+
+void	keep_min_max_median_push_rest(t_data *data, int *i, int *pushed)
+{
+	if (data->a[0].value == data->max || data->a[0].value == data->min || \
+		data->a[0].value == data->median)
 	{
-		if (data->a[0].value == data->max || data->a[0].value == data->min || data->a[0].value == data->median) // TODO: line too long
-		{
-			rotate_a(data);
-			i++;
-		}
-		else if (data->a[0].value <= data->upper_limit && data->a[0].value >= data->lower_limit) // TODO: line too long
-		{
-			pushed++;
-			push_to_b(data);
-		}
-		else
-		{
-			rotate_a(data);
-			i++;
-		}
+		rotate_a(data);
+		*i = *i + 1;
 	}
-	data->split++;
+	else if (data->a[0].value <= data->upper_limit && \
+		data->a[0].value >= data->lower_limit)
+	{
+		*pushed = *pushed + 1;
+		push_to_b(data);
+	}
+	else
+	{
+		rotate_a(data);
+		*i = *i + 1;
+	}
 }
 
 int	count_values_to_move(t_data *data)
@@ -53,8 +71,11 @@ int	count_values_to_move(t_data *data)
 	counter = 0;
 	while (i <= data->a_len)
 	{
-		if (data->a[i].value == data->max || data->a[i].value == data->min || data->a[i].value == data->median); // TODO: line too long
-		else if (data->a[i].value <= data->upper_limit && data->a[i].value >= data->lower_limit) // TODO: line too long
+		if (data->a[i].value == data->max || data->a[i].value == data->min \
+			|| data->a[i].value == data->median)
+			counter = counter + 0;
+		else if (data->a[i].value <= data->upper_limit \
+			&& data->a[i].value >= data->lower_limit)
 			counter++;
 		i++;
 	}
@@ -72,25 +93,5 @@ void	calculate_limits(t_data *data)
 	{
 		data->lower_limit = data->median + 1;
 		data->upper_limit = data->max;
-	}
-}
-
-void	find_median(t_data *data)
-{
-	int	i;
-	int	middle_value;
-
-	i = 0;
-	middle_value = data->a_len / 2 - 1;
-	calculate_indexes_in_A(data);
-	while (i < data->a_len)
-	{
-		if (data->a[i].index == middle_value)
-		{
-			data->median = data->a[i].value;
-			break; // TODO: check if it's ok to use break
-		}
-		else
-			i++;
 	}
 }

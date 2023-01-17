@@ -29,7 +29,7 @@ char	*get_next_line(int fd)
 		if (!buf.arr && buf.eof != 1)
 		{
 			if (get_next_buffer(&buf, &cache, fd) == 0)
-					return (NULL);
+				return (NULL);
 		}
 		if (update_cache(&buf, &cache) == 0)
 			return (NULL);

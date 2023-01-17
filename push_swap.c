@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oanttoor <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/17 10:21:00 by oanttoor          #+#    #+#             */
+/*   Updated: 2023/01/17 10:21:02 by oanttoor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 void	read_stack(int argc, char **argv, t_data *data);
@@ -6,6 +18,7 @@ void	freemem(t_data *data);
 int	main(int argc, char **argv)
 {
 	t_data	data;
+
 	initialise_data(&data, argc);
 	read_stack(argc, argv, &data);
 	if (is_sorted(&data) != 1)
@@ -14,7 +27,35 @@ int	main(int argc, char **argv)
 	return (0);
 }
 
-// IF THE VALUE CAN'T BE READ, ATOI RETURNS 0 SO WE NEED TO DISTINGUISH BETWEEN 0 AND '0'
+void	check_input_validity(char **argv, t_data *data, int *i)
+{
+	int	invalid_input;
+	int	e;
+
+	e = 0;
+	invalid_input = 0;
+	if (data->a[*i].value == 0 && *argv[*i + 1] != (char) '0')
+		invalid_input = 1;
+	if (data->a[*i].value == -1 && ft_strncmp(argv[*i + 1], "-1", 2) != 0)
+		invalid_input = 1;
+	while (e < *i)
+	{
+		if (data->a[*i].value == data->a[e].value)
+		{
+			invalid_input = 1;
+			e++;
+		}
+		else
+			e++;
+	}
+	if (invalid_input == 1)
+	{
+		ft_printf("Error\n");
+		freemem(data);
+		exit(1);
+	}
+}
+
 void	read_stack(int argc, char **argv, t_data *data)
 {
 	int	i;
@@ -29,12 +70,7 @@ void	read_stack(int argc, char **argv, t_data *data)
 	while (i < argc - 1)
 	{
 		data->a[i].value = ft_atoi(argv[i + 1]);
-		if (data->a[i].value == 0 && *argv[i + 1] != (char)'0')
-		{
-			ft_printf("Error\n");
-			freemem(data);
-			exit(1);
-		}
+		check_input_validity(argv, data, &i);
 		if (data->a[i].value > data->max)
 			data->max = data->a[i].value;
 		if (data->a[i].value < data->min)
