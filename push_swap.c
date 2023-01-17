@@ -63,7 +63,6 @@ void	read_stack(int argc, char **argv, t_data *data)
 	i = 0;
 	data->max = INT32_MIN;
 	data->min = INT32_MAX;
-	// TODO: ADD HANDLING OF VALUES OUTSIDE OF MAX_INT AND MIN_INT
 	data->a = (t_list_item *)malloc(argc * sizeof(t_list_item));
 	if (data->a == NULL)
 		freemem(data);
