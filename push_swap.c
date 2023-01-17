@@ -14,7 +14,8 @@ int	main(int argc, char **argv)
 	return (0);
 }
 
-void	read_stack(int argc, char **argv, t_data *data) // TODO: restructure this function so that it's not so messy
+// IF THE VALUE CAN'T BE READ, ATOI RETURNS 0 SO WE NEED TO DISTINGUISH BETWEEN 0 AND '0'
+void	read_stack(int argc, char **argv, t_data *data)
 {
 	int	i;
 
@@ -28,7 +29,7 @@ void	read_stack(int argc, char **argv, t_data *data) // TODO: restructure this f
 	while (i < argc - 1)
 	{
 		data->a[i].value = ft_atoi(argv[i + 1]);
-		if (data->a[i].value == 0 && *argv[i + 1] != (char)'0') // IF THE VALUE CAN'T BE READ, ATOI RETURNS 0 SO WE NEED TO DISTINGUISH BETWEEN 0 AND '0'
+		if (data->a[i].value == 0 && *argv[i + 1] != (char)'0')
 		{
 			ft_printf("Error\n");
 			freemem(data);

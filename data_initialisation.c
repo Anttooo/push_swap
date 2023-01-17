@@ -1,8 +1,17 @@
 #include "push_swap.h"
 
 void	initialise_move_counter(t_data *data);
+void	initialise_settings(t_data *data);
+void	initialise_variables(t_data *data, int argc);
 
 void	initialise_data(t_data *data, int argc)
+{
+	initialise_variables(data, argc);
+	initialise_settings(data);
+	initialise_move_counter(data);
+}
+
+void	initialise_variables(t_data *data, int argc)
 {
 	data->b = NULL;
 	data->a = NULL;
@@ -15,8 +24,6 @@ void	initialise_data(t_data *data, int argc)
 	data->split = 0;
 	data->median = 0;
 	data->zero_index = 0;
-	data->printing_enabled = 0;
-	initialise_move_counter(data);
 }
 
 void	initialise_move_counter(t_data *data)
@@ -32,4 +39,9 @@ void	initialise_move_counter(t_data *data)
 	data->move_counter.swap_a = 0;
 	data->move_counter.swap_b = 0;
 	data->move_counter.swap_both = 0;
+}
+
+void	initialise_settings(t_data *data)
+{
+	data->printing_enabled = 1;
 }

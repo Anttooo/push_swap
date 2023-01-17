@@ -11,7 +11,7 @@ void	sort_stack(t_data *data)
 	while (is_sorted(data) != 1)
 		complete_next_move(data);
 	update_total_move_count(&data->move_counter);
-	print_result(data); // TODO: remove this before submitting
+	// print_result(data); // TODO: remove this before submitting
 }
 
 void	initialise_stack_b(t_data *data)
@@ -43,33 +43,39 @@ int	is_sorted(t_data *data)
 
 void	update_total_move_count(t_moves *move_counter)
 {
-	move_counter->total = 0;
-	move_counter->total = move_counter->total + move_counter->push_a;
-	move_counter->total = move_counter->total + move_counter->push_b;
-	move_counter->total = move_counter->total + move_counter->rra;
-	move_counter->total = move_counter->total + move_counter->rrb;
-	move_counter->total = move_counter->total + move_counter->rrr;
-	move_counter->total = move_counter->total + move_counter->ra;
-	move_counter->total = move_counter->total + move_counter->rb;
-	move_counter->total = move_counter->total + move_counter->rr;
-	move_counter->total = move_counter->total + move_counter->swap_a;
-	move_counter->total = move_counter->total + move_counter->swap_b;
-	move_counter->total = move_counter->total + move_counter->swap_both;
+	int	*total;
+	
+	total = &move_counter->total;
+	*total = 0;
+	*total = *total + move_counter->push_a;
+	*total = *total + move_counter->push_b;
+	*total = *total + move_counter->rra;
+	*total = *total + move_counter->rrb;
+	*total = *total + move_counter->rrr;
+	*total = *total + move_counter->ra;
+	*total = *total + move_counter->rb;
+	*total = *total + move_counter->rr;
+	*total = *total + move_counter->swap_a;
+	*total = *total + move_counter->swap_b;
+	*total = *total + move_counter->swap_both;
 }
 
 void	update_total_move_count_for_index(t_data *data, int i)
 {
-	data->b[i].required_moves.total = 0;
-	data->b[i].required_moves.total = data->b[i].required_moves.total + data->b[i].required_moves.push_a;
-	data->b[i].required_moves.total = data->b[i].required_moves.total + data->b[i].required_moves.push_b;
-	data->b[i].required_moves.total = data->b[i].required_moves.total + data->b[i].required_moves.rra;
-	data->b[i].required_moves.total = data->b[i].required_moves.total + data->b[i].required_moves.rrb;
-	data->b[i].required_moves.total = data->b[i].required_moves.total + data->b[i].required_moves.rrr;
-	data->b[i].required_moves.total = data->b[i].required_moves.total + data->b[i].required_moves.ra;
-	data->b[i].required_moves.total = data->b[i].required_moves.total + data->b[i].required_moves.rb;
-	data->b[i].required_moves.total = data->b[i].required_moves.total + data->b[i].required_moves.rr;
-	data->b[i].required_moves.total = data->b[i].required_moves.total + data->b[i].required_moves.swap_a;
-	data->b[i].required_moves.total = data->b[i].required_moves.total + data->b[i].required_moves.swap_b;
-	data->b[i].required_moves.total = data->b[i].required_moves.total + data->b[i].required_moves.swap_both;
+	int	*total;
+	
+	total = &data->b[i].required_moves.total;
+	*total = 0;
+	*total = *total + data->b[i].required_moves.push_a;
+	*total = *total + data->b[i].required_moves.push_b;
+	*total = *total + data->b[i].required_moves.rra;
+	*total = *total + data->b[i].required_moves.rrb;
+	*total = *total + data->b[i].required_moves.rrr;
+	*total = *total + data->b[i].required_moves.ra;
+	*total = *total + data->b[i].required_moves.rb;
+	*total = *total + data->b[i].required_moves.rr;
+	*total = *total + data->b[i].required_moves.swap_a;
+	*total = *total + data->b[i].required_moves.swap_b;
+	*total = *total + data->b[i].required_moves.swap_both;
 }
 
