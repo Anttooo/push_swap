@@ -75,11 +75,11 @@ test20: all
 
 test100: all
 	rm -f $(OBJS)
-	./push_swap $$(cat 100.txt)
+	leaks -atExit -- ./push_swap $$(cat 100.txt)
 
 test500: all
 	rm -f $(OBJS)
-	./push_swap $$(cat 500.txt)
+	leaks -atExit -- ./push_swap $$(cat 500.txt)
 
 test_leaks: all
 	leaks -atExit -- ./push_swap

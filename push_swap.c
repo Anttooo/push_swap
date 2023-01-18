@@ -42,9 +42,13 @@ void	read_stack(int argc, char **argv, t_data *data)
 	data->a = (t_list_item *)malloc(argc * sizeof(t_list_item));
 	if (data->a == NULL)
 		freemem(data);
+	ft_printf("argc has value: %d\n", argc);
+	ft_printf("argv[1] has value: %s\n", argv[1]);
+	ft_printf("argv[2] has value: %s\n", argv[2]);
 	while (i < argc - 1)
 	{
 		data->a[i].value = ft_atoi(argv[i + 1]);
+		ft_printf("test: %d\n", data->a[i].value);
 		check_input_validity(argv, data, &i);
 		if (data->a[i].value > data->max)
 			data->max = data->a[i].value;

@@ -21,21 +21,29 @@ void	sort_a(t_data *data)
 
 	a = data->a[0].value;
 	b = data->a[1].value;
-	c = data->a[2].value;
-	if (is_acb(a, b, c) == 1)
+	if (data->a_len == 2)
 	{
-		reverse_rotate_a(data);
-		swap_a(data);
+		if (b < a)
+			swap_a(data);
 	}
-	else if (is_bca(a, b, c))
-		reverse_rotate_a(data);
-	else if (is_cab(a, b, c))
-		rotate_a(data);
-	else if (is_bac(a, b, c))
-		swap_a(data);
-	else if (is_cba(a, b, c))
+	if (data->a_len == 3)
 	{
-		rotate_a(data);
-		swap_a(data);
+		c = data->a[2].value;
+		if (is_acb(a, b, c) == 1)
+		{
+			reverse_rotate_a(data);
+			swap_a(data);
+		}
+		else if (is_bca(a, b, c))
+			reverse_rotate_a(data);
+		else if (is_cab(a, b, c))
+			rotate_a(data);
+		else if (is_bac(a, b, c))
+			swap_a(data);
+		else if (is_cba(a, b, c))
+		{
+			rotate_a(data);
+			swap_a(data);
+		}
 	}
 }
