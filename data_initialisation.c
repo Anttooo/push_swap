@@ -14,22 +14,20 @@
 
 void	initialise_move_counter(t_data *data);
 void	initialise_settings(t_data *data);
-void	initialise_variables(t_data *data, int argc);
+void	initialise_variables(t_data *data);
 
-void	initialise_data(t_data *data, int argc)
+void	initialise_data(t_data *data)
 {
-	initialise_variables(data, argc);
+	initialise_variables(data);
 	initialise_settings(data);
 	initialise_move_counter(data);
 }
 
-void	initialise_variables(t_data *data, int argc)
+void	initialise_variables(t_data *data)
 {
 	data->b = NULL;
 	data->a = NULL;
-	data->a_len = argc - 1;
 	data->b_len = 0;
-	data->org_len = argc - 1;
 	data->lower_limit = INT32_MAX;
 	data->upper_limit = INT32_MIN;
 	data->nr_of_splits = 2;

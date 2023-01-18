@@ -14,6 +14,8 @@
 
 void	read_stack(int argc, char **argv, t_data *data);
 void	freemem(t_data *data);
+int		count_numbers(char **argv, int argc);
+void	store_into_stack(t_data *data, int *index_for_stack, char *arg);
 
 // The driver function which controls the overal flow of the program.
 int	main(int argc, char **argv)
@@ -22,7 +24,7 @@ int	main(int argc, char **argv)
 
 	if (argc > 1)
 	{
-		initialise_data(&data, argc);
+		initialise_data(&data);
 		read_stack(argc, argv, &data);
 		if (is_sorted(&data) != 1)
 			sort_stack(&data);
@@ -35,27 +37,69 @@ int	main(int argc, char **argv)
 void	read_stack(int argc, char **argv, t_data *data)
 {
 	int	i;
+	int	index_for_stack;
 
 	i = 0;
+	index_for_stack = 0;
+	data->org_len = count_numbers(argv, argc);
+	data->a_len = data->org_len;
 	data->max = INT32_MIN;
 	data->min = INT32_MAX;
-	data->a = (t_list_item *)malloc(argc * sizeof(t_list_item));
+	data->a = (t_list_item *)malloc((data->a_len + 1) * sizeof(t_list_item));
 	if (data->a == NULL)
 		freemem(data);
-	ft_printf("argc has value: %d\n", argc);
-	ft_printf("argv[1] has value: %s\n", argv[1]);
-	ft_printf("argv[2] has value: %s\n", argv[2]);
 	while (i < argc - 1)
 	{
-		data->a[i].value = ft_atoi(argv[i + 1]);
-		ft_printf("test: %d\n", data->a[i].value);
-		check_input_validity(argv, data, &i);
+		store_into_stack(data, &index_for_stack, argv[i + 1]);
 		if (data->a[i].value > data->max)
 			data->max = data->a[i].value;
 		if (data->a[i].value < data->min)
 			data->min = data->a[i].value;
 		i++;
 	}
+}
+
+int	count_numbers(char **argv, int argc)
+{
+	int		i;
+	int		j;
+	char	**arg_split;
+	int		number_count;
+
+	i = 1;
+	number_count = 0;
+	while (i <= argc - 1)
+	{
+		j = 0;
+		arg_split = ft_split(argv[i], ' ');
+		while (arg_split[j])
+		{
+			number_count++;
+			free(arg_split[j]);
+			j++;
+		}
+		free(arg_split);
+		i++;
+	}
+	return (number_count);
+}
+
+void	store_into_stack(t_data *data, int *index_for_stack, char *arg)
+{
+	char	**arg_split;
+	int		i;
+
+	i = 0;
+	arg_split = ft_split(arg, ' ');
+	while (arg_split[i])
+	{
+		data->a[*index_for_stack].value = ft_atoi(arg_split[i]);
+		check_input_validity(arg, data, *index_for_stack);
+		(*index_for_stack)++;
+		free(arg_split[i]);
+		i++;
+	}
+	free(arg_split);
 }
 
 // Frees the allocated memory

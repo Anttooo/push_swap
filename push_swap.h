@@ -71,8 +71,8 @@ void	print_data(t_data *data);
 void	find_median(t_data *data);
 void	update_total_move_count(t_moves *move_counter);
 void	update_total_move_count_for_index(t_data *data, int i);
-void	initialise_data(t_data *data, int argc);
-void	check_input_validity(char **argv, t_data *data, int *i);
+void	initialise_data(t_data *data);
+void	check_input_validity(char *arg, t_data *data, int i);
 
 // compute indexes in A
 void	compute_indexes_in_a_for_b_values(t_data *data);
