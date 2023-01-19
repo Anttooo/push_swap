@@ -1,31 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   swap_b.c                                           :+:      :+:    :+:   */
+/*   prepare_b_helpers.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oanttoor <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 11:15:06 by oanttoor          #+#    #+#             */
-/*   Updated: 2023/01/17 11:15:07 by oanttoor         ###   ########.fr       */
+/*   Created: 2023/01/17 13:03:44 by oanttoor          #+#    #+#             */
+/*   Updated: 2023/01/17 13:03:46 by oanttoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../push_swap.h"
+#include "push_swap.h"
 
-// Swap the first 2 elements at the top of stack a.
-// Do nothing if there is only one or no elements.
-
-void	swap_b(t_data *data)
+/* 
+Finds the median value in the array 'a' and 
+assigns it to 'median' in the t_data struct 
+*/
+void	find_median(t_data *data)
 {
-	int	temp_holder;
+	int	i;
+	int	middle_value;
 
-	if (data->b_len >= 2)
+	i = 0;
+	middle_value = data->a_len / 2 - 1;
+	calculate_indexes_in_a(data);
+	while (i < data->a_len)
 	{
-		temp_holder = data->b[0].value;
-		data->b[0].value = data->b[1].value;
-		data->b[1].value = temp_holder;
+		if (data->a[i].index == middle_value)
+		{
+			data->median = data->a[i].value;
+			i = data->a_len;
+		}
+		else
+			i++;
 	}
-	if (data->printing_enabled == 1)
-		ft_printf("sb\n");
-	data->move_counter.swap_b++;
 }

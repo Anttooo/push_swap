@@ -1,110 +1,125 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   prepare_b.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oanttoor <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/17 10:20:35 by oanttoor          #+#    #+#             */
+/*   Updated: 2023/01/17 10:20:36 by oanttoor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-void	organise_b(t_stacks *stacks);
-void	calculate_limits(t_stacks *stacks);
-void	push_split_into_b(t_stacks *stacks);
-void	find_median(t_stacks *stacks);
-int	count_values_to_move(t_stacks *stacks);
+void	calculate_limits(t_data *data);
+void	push_split_into_b(t_data *data);
+int		count_values_to_move(t_data *data);
+void	keep_min_max_median_push_rest(t_data *data, int *i, int *pushed);
 
-void	prepare_b(t_stacks *stacks)
+/* 
+This function is used to prepare stack B for sorting by finding median, 
+calculating limits, and pushing elements from stack A into stack B.
+*/
+void	prepare_b(t_data *data)
 {
-	find_median(stacks);
-	// push first lower 50% of values and then upper 50%
-	while (stacks->split < 2 && stacks->a_len > 3)
-		push_split_into_b(stacks);
+	if (data->org_len > 12)
+	{
+		find_median(data);
+		while (data->split < 2 && data->a_len > 3)
+		{
+			calculate_limits(data);
+			push_split_into_b(data);
+			data->split++;
+		}
+	}
+	else
+	{
+		while (data->a_len > 3)
+			push_to_b(data);
+	}
 }
 
-void	push_split_into_b(t_stacks *stacks)
+/*
+This function pushes elements from stack A into stack B, 
+according to the limits calculated by the function 'calculate_limits
+*/
+void	push_split_into_b(t_data *data)
 {
 	int	i;
 	int	values_to_push;
 	int	pushed;
 
 	i = 0;
-	calculate_limits(stacks);
-	values_to_push = count_values_to_move(stacks);
-	// ft_printf("Values to push for this split: %d\n", values_to_push);
+	values_to_push = count_values_to_move(data);
 	pushed = 0;
-	while (i <= stacks->a_len && pushed < values_to_push)
-	{
-		// If value at index 0 is between limits, push it to b. Else rotate
-		if (stacks->a[0].value == stacks->max || stacks->a[0].value == stacks->min || stacks->a[0].value == stacks->median)
-		{
-			// ft_printf("test 1, i: %d, a_len: %d, at zero index: %d\n", i, stacks->a_len, stacks->a[0].value);
-			rotate_a(stacks);
-			i++;
-		}
-		else if (stacks->a[0].value <= stacks->upper_limit && stacks->a[0].value >= stacks->lower_limit)
-		{
-			// ft_printf("test 2, i: %d, a_len: %d, at zero index: %d\n", i, stacks->a_len, stacks->a[0].value);
-			// print_stacks(stacks);
-			pushed++;
-			push_to_b(stacks);
-		}
-		else
-		{
-			// ft_printf("test 3, i: %d, a_len: %d, at zero index: %d\n", i, stacks->a_len, stacks->a[0].value);
-			rotate_a(stacks);
-			i++;
-		}
-	}
-	stacks->split++;
+	while (i <= data->a_len && pushed < values_to_push)
+		keep_min_max_median_push_rest(data, &i, &pushed);
 }
 
-int	count_values_to_move(t_stacks *stacks)
+/*
+This function pushes elements from stack A into stack B if they are within 
+the limits, keeps elements that are min, max, and median and rotate the rest.
+*/
+void	keep_min_max_median_push_rest(t_data *data, int *i, int *pushed)
+{
+	if (data->a[0].value == data->max || data->a[0].value == data->min || \
+		data->a[0].value == data->median)
+	{
+		rotate_a(data);
+		(*i)++;
+	}
+	else if (data->a[0].value <= data->upper_limit && \
+		data->a[0].value >= data->lower_limit)
+	{
+		(*pushed)++;
+		push_to_b(data);
+	}
+	else
+	{
+		rotate_a(data);
+		*i = *i + 1;
+	}
+}
+
+/*
+This function counts the number of elements that need to be moved 
+from stack A to stack B according to the limits
+*/
+int	count_values_to_move(t_data *data)
 {
 	int	i;
 	int	counter;
 
 	i = 0;
 	counter = 0;
-	while (i <= stacks->a_len)
+	while (i <= data->a_len)
 	{
-		if (stacks->a[i].value == stacks->max || stacks->a[i].value == stacks->min || stacks->a[i].value == stacks->median);
-		else if (stacks->a[i].value <= stacks->upper_limit && stacks->a[i].value >= stacks->lower_limit)
-		{
-			// ft_printf("value %d fits between the lower limit and upper limit\n", stacks->a[i].value);
+		if (data->a[i].value == data->max || data->a[i].value == data->min \
+			|| data->a[i].value == data->median)
+			counter = counter + 0;
+		else if (data->a[i].value <= data->upper_limit \
+			&& data->a[i].value >= data->lower_limit)
 			counter++;
-		}
 		i++;
 	}
 	return (counter);
 }
 
-// TODO: this could probably be optimised by finding the median rather than dividing by 2
-void	calculate_limits(t_stacks *stacks)
+/*
+This function calculates the upper and lower limits of 
+the elements that need to be pushed from stack A to stack B
+*/
+void	calculate_limits(t_data *data)
 {
-	if (stacks->split == 0)
+	if (data->split == 0)
 	{
-		stacks->lower_limit = stacks->min;
-		stacks->upper_limit = stacks->median;
+		data->lower_limit = data->min;
+		data->upper_limit = data->median;
 	}
 	else
 	{
-		stacks->lower_limit = stacks->median + 1;
-		stacks->upper_limit = stacks->max;
-	}
-	// ft_printf("lower limit: %d, upper limit: %d\n", stacks->lower_limit, stacks->upper_limit);
-}
-
-void	find_median(t_stacks *stacks)
-{
-	int	i;
-	int	middle_value;
-
-	i = 0;
-	middle_value = stacks->a_len / 2 - 1;
-	// ft_printf("middle value: %d\n", middle_value);
-	calculate_indexes_in_A(stacks);
-	while (i < stacks->a_len)
-	{
-		if (stacks->a[i].index == middle_value)
-		{
-			stacks->median = stacks->a[i].value;
-			// ft_printf("median value: %d\n", stacks->median);
-			break;
-		}
-		else
-			i++;
+		data->lower_limit = data->median + 1;
+		data->upper_limit = data->max;		
 	}
 }

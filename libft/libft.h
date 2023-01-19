@@ -91,7 +91,4 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 void	gnl_freemem(t_buffer *buffer, t_cache *cache);
 
-// math functions
-int	ft_abs(int value);
-
 #endif

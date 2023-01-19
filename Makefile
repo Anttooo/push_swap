@@ -12,12 +12,19 @@ LDFLAGS = -L./libft -lft
 
 DEPS = ./libft/libft.h
 
+# TODO: Remove print_data.c before submitting, it's just for debugging
 SRCS = ./push_swap.c \
 		./sort_stack.c \
 		./calculate_indexes.c \
+		./calculate_indexes_helpers.c \
+		./data_initialisation.c \
+		./print_debug_info.c \
 		./prepare_b.c \
-		./sort_b.c \
+		./prepare_b_helpers.c \
+		./complete_next_move.c \
+		./input_validity_check.c \
 		./sort_a.c \
+		./sort_a_helpers.c \
 		./srcs/push_a.c \
 		./srcs/push_b.c \
 		./srcs/swap_a.c \
@@ -28,7 +35,10 @@ SRCS = ./push_swap.c \
 		./srcs/rotate_both.c \
 		./srcs/reverse_rotate_a.c \
 		./srcs/reverse_rotate_b.c \
-		./srcs/reverse_rotate_both.c		
+		./srcs/reverse_rotate_both.c \
+		./compute_optimal_rotation.c \
+		./select_optimal_rotation.c \
+		./execute_instructions.c
 
 OBJS = $(notdir $(SRCS:%.c=%.o))
 

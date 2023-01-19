@@ -1,24 +1,36 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   reverse_rotate_both.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oanttoor <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/17 11:14:35 by oanttoor          #+#    #+#             */
+/*   Updated: 2023/01/17 11:14:36 by oanttoor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../push_swap.h"
 
-void	reverse_rotate_both(t_stacks *stacks)
+void	reverse_rotate_both(t_data *data)
 {
 	int	print_switched;
 
-	if (stacks->printing_enabled == 1)
+	if (data->printing_enabled == 1)
 	{
 		print_switched = 1;
-		stacks->printing_enabled = 0;
+		data->printing_enabled = 0;
 	}
 	else
 		print_switched = 0;
-	reverse_rotate_a(stacks);
-	reverse_rotate_b(stacks);
+	reverse_rotate_a(data);
+	reverse_rotate_b(data);
 	if (print_switched == 1)
 	{
 		ft_printf("rrr\n");
-		stacks->printing_enabled = 1;
+		data->printing_enabled = 1;
 	}
-	stacks->move_counter.reverse_rotate_both++;
-	stacks->move_counter.reverse_rotate_a--;
-	stacks->move_counter.reverse_rotate_b--;
+	data->move_counter.rrr++;
+	data->move_counter.rra--;
+	data->move_counter.rrb--;
 }

@@ -47,8 +47,7 @@ SRCS = ft_atoi.c \
 		handle_lower_x.c \
 		handle_upper_x.c \
 		get_next_line.c \
-		gnl_freemem.c \
-		ft_abs.c
+		gnl_freemem.c 
 		
 
 OBJS = $(SRCS:%.c=%.o)
