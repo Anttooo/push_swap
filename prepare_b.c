@@ -23,12 +23,20 @@ calculating limits, and pushing elements from stack A into stack B.
 */
 void	prepare_b(t_data *data)
 {
-	find_median(data);
-	while (data->split < 2 && data->a_len > 3)
+	if (data->org_len > 12)
 	{
-		calculate_limits(data);
-		push_split_into_b(data);
-		data->split++;
+		find_median(data);
+		while (data->split < 2 && data->a_len > 3)
+		{
+			calculate_limits(data);
+			push_split_into_b(data);
+			data->split++;
+		}
+	}
+	else
+	{
+		while (data->a_len > 3)
+			push_to_b(data);
 	}
 }
 
@@ -112,6 +120,6 @@ void	calculate_limits(t_data *data)
 	else
 	{
 		data->lower_limit = data->median + 1;
-		data->upper_limit = data->max;
+		data->upper_limit = data->max;		
 	}
 }

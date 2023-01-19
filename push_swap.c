@@ -51,10 +51,6 @@ void	read_stack(int argc, char **argv, t_data *data)
 	while (i < argc - 1)
 	{
 		store_into_stack(data, &index_for_stack, argv[i + 1]);
-		if (data->a[i].value > data->max)
-			data->max = data->a[i].value;
-		if (data->a[i].value < data->min)
-			data->min = data->a[i].value;
 		i++;
 	}
 }
@@ -94,9 +90,13 @@ void	store_into_stack(t_data *data, int *index_for_stack, char *arg)
 	while (arg_split[i])
 	{
 		data->a[*index_for_stack].value = ft_atoi(arg_split[i]);
-		check_input_validity(arg, data, *index_for_stack);
-		(*index_for_stack)++;
+		check_input_validity(arg_split[i], data, *index_for_stack);
+		if (data->a[*index_for_stack].value > data->max)
+			data->max = data->a[*index_for_stack].value;
+		if (data->a[*index_for_stack].value < data->min)
+			data->min = data->a[*index_for_stack].value;
 		free(arg_split[i]);
+		(*index_for_stack)++;
 		i++;
 	}
 	free(arg_split);

@@ -26,9 +26,14 @@ void	complete_next_move(t_data *data)
 	}
 	if (data->b_len == 0)
 	{
+		calculate_indexes_in_a(data);
 		while (data->a[0].index != 0)
 		{
-			reverse_rotate_a(data);
+			update_index_of_smallest_value_in_a(data);
+			if ((data->a_len - data->zero_index) <= data->zero_index)
+				reverse_rotate_a(data);
+			else
+				rotate_a(data);
 			calculate_indexes_in_a(data);
 		}
 	}
